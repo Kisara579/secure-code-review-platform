@@ -5,7 +5,7 @@ export default function DocumentationPage() {
         {/* Header */}
         <header className="mb-12 border-b border-slate-800 pb-8">
           <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-cyan-400">
-            SecureReview AI
+            SecureReview AI &amp; CyberMind
           </p>
 
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
@@ -13,137 +13,215 @@ export default function DocumentationPage() {
           </h1>
 
           <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-400">
-            AI-Powered Automated Secure Code Review and Technical Debt
-            Management Platform for DevSecOps Teams
+            AI-Powered Automated Secure Code Review, Technical Debt Management,
+            and SOC Threat Intelligence Platform for DevSecOps Teams
           </p>
         </header>
 
-        {/* Project Title */}
-        <section className="mb-10">
-          <h2 className="mb-4 text-2xl font-semibold text-white">
-            Project Title
+        {/* Table of Contents */}
+        <nav className="mb-12 rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+          <h2 className="mb-4 text-lg font-semibold text-white">
+            Table of Contents
           </h2>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+          <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2">
+            {[
+              { href: "#project-overview", label: "1. Project Overview & Identity" },
+              { href: "#problem", label: "2. Problem Statement" },
+              { href: "#project-goals", label: "3. Project Goals & Objectives" },
+              { href: "#core-features", label: "4. Core System Features" },
+              { href: "#system-architecture", label: "5. System Architecture" },
+              { href: "#dual-pipelines", label: "6. Dual Automation Pipelines" },
+              { href: "#technology-stack", label: "7. Complete Technology Stack" },
+              { href: "#free-tier-cloud", label: "8. Free-Tier Cloud Ecosystem ($0)" },
+              { href: "#how-it-works", label: "9. How SecureReview AI Works" },
+              { href: "#analysis-pipeline", label: "10. Analysis Pipeline" },
+              { href: "#security-analysis", label: "11. Security Analysis (SAST)" },
+              { href: "#dependency-analysis", label: "12. Dependency Analysis (CVEs)" },
+              { href: "#technical-debt", label: "13. Technical Debt Engine" },
+              { href: "#finding-normalization", label: "14. Finding Normalization" },
+              { href: "#finding-schema", label: "15. Normalized Finding Schema" },
+              { href: "#deterministic-vs-ai", label: "16. Deterministic vs AI Principle" },
+              { href: "#ai-assistance", label: "17. AI Assistance (Gemini)" },
+              { href: "#scoring-metrics", label: "18. Scoring & Health Metrics" },
+              { href: "#scoring-formulas", label: "19. Mathematical Scoring Formulas" },
+              { href: "#quality-gates", label: "20. Configurable Quality Gates" },
+              { href: "#gate-configuration", label: "21. Quality Gate Configuration" },
+              { href: "#dashboard", label: "22. Web Dashboard & Analytics" },
+              { href: "#database-architecture", label: "23. Database & Prisma Schema" },
+              { href: "#project-structure", label: "24. Monorepo Project Structure" },
+              { href: "#roadmap", label: "25. 21-Phase Development Roadmap" },
+              { href: "#docker-cicd", label: "26. Docker & CI/CD Pipelines" },
+              { href: "#environment-variables", label: "27. Master Environment Variables" },
+              { href: "#security-privacy", label: "28. Security & Privacy Hardening" },
+              { href: "#testing", label: "29. Comprehensive Testing Strategy" },
+              { href: "#academic-thesis", label: "30. Academic Research & Thesis Guide" },
+              { href: "#future-improvements", label: "31. CyberMind SOC Extensions" },
+              { href: "#project-scope", label: "32. Project Scope (Core vs Optional)" },
+              { href: "#out-of-scope", label: "33. Explicitly Out-of-Scope" },
+            ].map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="block py-1 text-sm text-slate-400 transition-colors hover:text-cyan-400"
+              >
+                {item.label}
+              </a>
+            ))}
+          </div>
+        </nav>
+
+        {/* 1. Project Overview */}
+        <section id="project-overview" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            1. Project Overview &amp; Identity
+          </h2>
+
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6 space-y-4">
             <p className="leading-7 text-slate-300">
+              <strong className="text-white">Full Formal Project Title:</strong>{" "}
               AI-Powered Automated Secure Code Review and Technical Debt
               Management Platform for DevSecOps Teams
+            </p>
+            <p className="leading-7 text-slate-300">
+              <strong className="text-white">Product System Names:</strong>{" "}
+              <span className="text-cyan-400 font-semibold">SecureReview AI</span>{" "}
+              (Core DevSecOps Platform) &amp;{" "}
+              <span className="text-cyan-400 font-semibold">CyberMind AI</span>{" "}
+              (Vulnerability &amp; SOC Workbench Extension)
+            </p>
+            <p className="leading-7 text-slate-400">
+              <strong className="text-white">One-Sentence Definitive Mission:</strong>{" "}
+              A full-stack DevSecOps and cybersecurity platform that
+              automatically analyzes GitHub/GitLab Pull Requests for security
+              vulnerabilities, code-quality flaws, and technical debt, uses
+              Google Gemini AI to explain and prioritize findings and generate
+              remediation patches, provides executive dashboards and configurable
+              quality gates, automates containerized deployments via Docker and
+              GitHub Actions CI/CD to GHCR, and extends into a centralized SOC
+              intelligence workbench featuring CVE intelligence, MITRE ATT&amp;CK
+              mapping, Nmap/Nessus/Syslog ingestion, and audit-ready PDF pentest
+              report generation.
             </p>
           </div>
         </section>
 
-        {/* Project Overview */}
-        <section className="mb-10">
+        {/* 2. Problem Statement */}
+        <section id="problem" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Project Overview
+            2. Problem Statement
           </h2>
 
-          <p className="leading-8 text-slate-400">
-            SecureReview AI is a DevSecOps-oriented platform designed to
-            automate secure code review, vulnerability detection, dependency
-            analysis, and technical debt identification. The platform analyzes
-            software repositories and presents security and code-quality
-            findings through a centralized dashboard.
-          </p>
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+            <p className="leading-8 text-slate-400">
+              Manual code reviews and security assessments are time-consuming,
+              inconsistent, and difficult to scale across fast-paced development
+              teams. Development teams routinely overlook vulnerable dependencies,
+              insecure coding patterns (OWASP Top 10), and accumulated technical
+              debt during rapid release cycles. Existing commercial AppSec tools
+              are expensive, complex to configure, produce alert fatigue, and lack
+              actionable remediation diffs. Furthermore, code security findings
+              are rarely correlated with operational infrastructure telemetry
+              (open ports, host CVEs, authentication logs).
+            </p>
+          </div>
         </section>
 
-        {/* Problem */}
-        <section className="mb-10">
-          <h2 className="mb-4 text-2xl font-semibold text-white">Problem</h2>
-
-          <p className="leading-8 text-slate-400">
-            Manual code reviews and security assessments can be time-consuming,
-            inconsistent, and difficult to scale. Development teams may also
-            overlook vulnerable dependencies, insecure coding patterns, and
-            accumulated technical debt during rapid software development.
-          </p>
-        </section>
-
-        {/* Project Goals */}
-        <section className="mb-10">
+        {/* 3. Project Goals */}
+        <section id="project-goals" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Project Goals
+            3. Project Goals &amp; Objectives
           </h2>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
             <ul className="space-y-4 text-slate-400">
               <li>
                 <span className="font-medium text-slate-200">
-                  Automate secure code review
+                  Automate Deterministic Secure Code Review:
                 </span>
                 <span className="block mt-1">
-                  Automatically analyze source code to identify common security
-                  vulnerabilities and insecure coding patterns.
+                  Inspect source code using AST and static rules to detect OWASP
+                  Top 10 vulnerabilities and hardcoded secrets with 100% reproducible
+                  results and zero hallucination.
                 </span>
               </li>
 
               <li>
                 <span className="font-medium text-slate-200">
-                  Identify dependency vulnerabilities
+                  Identify Dependency Vulnerabilities (CVEs):
                 </span>
                 <span className="block mt-1">
-                  Detect known security vulnerabilities in third-party
-                  dependencies used by software projects.
+                  Query live OSV and NVD REST API 2.0 databases to detect known
+                  vulnerabilities in third-party packages, mapping them to CVSS
+                  scores and remediation versions.
                 </span>
               </li>
 
               <li>
                 <span className="font-medium text-slate-200">
-                  Manage technical debt
+                  Quantify and Prioritize Technical Debt:
                 </span>
                 <span className="block mt-1">
-                  Identify code-quality issues and technical debt that may
-                  affect maintainability and long-term development.
+                  Measure code smells, cyclomatic complexity, and duplication in
+                  estimated remediation hours, and rank debt using an impact-to-effort
+                  Refactor-First algorithm.
                 </span>
               </li>
 
               <li>
                 <span className="font-medium text-slate-200">
-                  Provide AI-assisted analysis
+                  Provide Generative AI Interpretation &amp; Patch Synthesis:
                 </span>
                 <span className="block mt-1">
-                  Use AI to explain detected issues and provide useful
-                  remediation guidance for developers.
+                  Use Google Gemini AI to translate technical CWE/CVE findings into
+                  plain English, explain exploit scenarios, and generate secure
+                  Git diff replacement patches.
                 </span>
               </li>
 
               <li>
                 <span className="font-medium text-slate-200">
-                  Support DevSecOps workflows
+                  Enforce Quality Gates &amp; In-PR Feedback:
                 </span>
                 <span className="block mt-1">
-                  Integrate security and code-quality analysis into the software
-                  development lifecycle.
+                  Block unsafe code from merging using configurable quality gate
+                  thresholds, automated in-PR Markdown comments, and GitHub commit
+                  status checks.
                 </span>
               </li>
             </ul>
           </div>
         </section>
 
-        {/* Core Features */}
-        <section>
+        {/* 4. Core Features */}
+        <section id="core-features" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Core Features
+            4. Core System Features
           </h2>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
             <ul className="space-y-3 text-slate-400">
-              <li>• Automated secure code review</li>
-              <li>• Security vulnerability detection</li>
-              <li>• Dependency vulnerability analysis</li>
-              <li>• Technical debt identification</li>
-              <li>• Repository and pull request analysis</li>
-              <li>• Security findings dashboard</li>
-              <li>• AI-assisted vulnerability explanation and remediation</li>
-              <li>• Security and code-quality metrics</li>
+              <li>• Automated secure code review for GitHub and GitLab Pull Requests</li>
+              <li>• Deterministic OWASP Top 10 vulnerability scanner (SQLi, XSS, Cmd Injection, etc.)</li>
+              <li>• High-entropy secret and credential leak detector (AWS, GitHub tokens, private keys)</li>
+              <li>• Dependency vulnerability analysis via OSV and NVD REST API 2.0</li>
+              <li>• Technical debt quantification in remediation hours with hotspot mapping</li>
+              <li>• Algorithmic Repository Health Scoring Engine (explainable formula 0–100)</li>
+              <li>• Configurable quality gates (PASS/FAIL) with GitHub commit status checks</li>
+              <li>• Automated in-PR Markdown review comments with actionable findings</li>
+              <li>• Google Gemini AI plain-English risk explanations and automated Git diff patches</li>
+              <li>• Interactive Next.js 16 Web Dashboard with Recharts visual analytics</li>
+              <li>• Multi-tenant RBAC authentication (Auth.js v5 + Supabase PostgreSQL)</li>
+              <li>• Docker multi-container orchestration and GitHub Actions CI/CD to GHCR</li>
+              <li>• CyberMind SOC workbench: NVD CVE search, Nmap/Nessus/Syslog parsers, and PDF reports</li>
             </ul>
           </div>
         </section>
 
-        {/* System Architecture */}
-        <section className="mb-10">
+        {/* 5. System Architecture */}
+        <section id="system-architecture" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            System Architecture
+            5. System Architecture
           </h2>
 
           <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 p-4 sm:p-6">
@@ -163,1137 +241,1158 @@ export default function DocumentationPage() {
           </p>
         </section>
 
-        {/* Technology Stack */}
-        <section className="mb-10">
+        {/* 6. Dual Automation Pipelines */}
+        <section id="dual-pipelines" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Technology Stack
+            6. Dual Automation Pipelines Architecture
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI uses a modern web application stack with separate
-            components for the frontend, backend services, analysis workers,
-            data storage, security analysis, and AI-assisted processing.
+            A central architectural innovation of SecureReview AI is the clean
+            separation and synchronization of two distinct automation lifecycles:
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">Frontend</h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Next.js, TypeScript, and Tailwind CSS are used to build the
-                documentation, dashboard, and user interface.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">Backend</h3>
-              <p className="text-sm leading-6 text-slate-400">
-                A server-side API handles repository processing, analysis
-                orchestration, findings, quality gates, and application logic.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">Database</h3>
-              <p className="text-sm leading-6 text-slate-400">
-                PostgreSQL is used to store projects, analysis runs, findings,
-                metrics, and related application data.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Background Processing
+            <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/5 p-5">
+              <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400">
+                Pipeline 1
+              </span>
+              <h3 className="mt-1 mb-2 font-semibold text-white">
+                Application PR Analysis Pipeline
               </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Background workers handle repository analysis and other
-                time-consuming processing tasks without blocking the main API.
+              <p className="text-sm leading-6 text-slate-400 mb-3">
+                Analyzes code written by the user&apos;s development team:
               </p>
+              <ul className="space-y-2 text-xs leading-5 text-slate-400">
+                <li>1. Developer opens or updates PR on GitHub/GitLab</li>
+                <li>2. Webhook received with HMAC SHA-256 signature verification</li>
+                <li>3. Job enqueued to Redis BullMQ task queue</li>
+                <li>4. Sandboxed isolated worker performs shallow Git clone</li>
+                <li>5. SAST, secret, dependency, and complexity scans run</li>
+                <li>6. Findings normalized into common schema</li>
+                <li>7. Health &amp; debt scores calculated; quality gates evaluated</li>
+                <li>8. Gemini AI generates explanations &amp; Git diff patches</li>
+                <li>9. Results persisted to PostgreSQL via Prisma ORM</li>
+                <li>10. In-PR review comment &amp; commit status check posted</li>
+              </ul>
             </div>
 
             <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Security Analysis
+              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Pipeline 2
+              </span>
+              <h3 className="mt-1 mb-2 font-semibold text-white">
+                Software Delivery CI/CD Pipeline
               </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Semgrep and custom security rules are used for static analysis
-                and detection of insecure coding patterns.
+              <p className="text-sm leading-6 text-slate-400 mb-3">
+                Builds, tests, packages, and deploys the platform itself:
               </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Dependency Analysis
-              </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Vulnerability information from sources such as OSV and NVD is
-                used to identify vulnerable third-party dependencies.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">AI</h3>
-              <p className="text-sm leading-6 text-slate-400">
-                A Gemini or compatible AI API provides explanations and
-                remediation guidance for selected findings.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">Deployment</h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Docker and CI/CD workflows are used to provide reproducible
-                development, testing, and deployment environments.
-              </p>
+              <ul className="space-y-2 text-xs leading-5 text-slate-400">
+                <li>1. Platform developer pushes feature branch</li>
+                <li>2. GitHub Actions CI checks out repository &amp; dependencies</li>
+                <li>3. Linters (ESLint) &amp; TypeScript type check executed</li>
+                <li>4. Unit &amp; integration tests run with coverage</li>
+                <li>5. Security audit scan (npm audit, Semgrep) executed</li>
+                <li>6. Multi-stage Docker images built (web, worker)</li>
+                <li>7. Merge to main triggers CD pipeline</li>
+                <li>8. Images tagged with Git SHA &amp; latest, pushed to GHCR</li>
+                <li>9. Database migrations deployed (prisma migrate deploy)</li>
+                <li>10. Deployment smoke test &amp; /api/health check executed</li>
+              </ul>
             </div>
           </div>
         </section>
 
-        {/* How SecureReview AI Works */}
-        <section className="mb-10">
+        {/* 7. Technology Stack */}
+        <section id="technology-stack" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            How SecureReview AI Works
+            7. Complete Technology Stack Reference
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            SecureReview AI uses a modern full-stack TypeScript ecosystem with
+            separate components for the frontend, backend services, analysis workers,
+            data storage, security scanning, and AI-assisted processing.
+          </p>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              {
+                title: "Frontend Framework",
+                description:
+                  "Next.js 16 (App Router), TypeScript v5 (Strict Mode), and Tailwind CSS v4 provide the dashboard, documentation, and user interface.",
+              },
+              {
+                title: "Backend & APIs",
+                description:
+                  "Next.js API Route Handlers and serverless functions handle repository processing, webhook validation, and quality gates.",
+              },
+              {
+                title: "Database & ORM",
+                description:
+                  "PostgreSQL (Supabase) with Prisma ORM v5/v6 for multi-tenant persistence of organizations, repositories, PRs, findings, and metrics.",
+              },
+              {
+                title: "Queue & Cache",
+                description:
+                  "Redis (Upstash / local) with BullMQ for asynchronous PR analysis jobs, rate limiting, and API response caching.",
+              },
+              {
+                title: "Authentication",
+                description:
+                  "Auth.js (NextAuth v5) with GitHub & GitLab OAuth 2.0, JWT secure cookies, and multi-tenant RBAC authorization guards.",
+              },
+              {
+                title: "Security Analysis (SAST)",
+                description:
+                  "Semgrep CLI and custom AST/regex rules for deterministic OWASP Top 10 detection and Shannon-entropy secret scanning.",
+              },
+              {
+                title: "Dependency Scanning",
+                description:
+                  "OSV API and NVD REST API 2.0 for identifying known CVEs in third-party package manifests (package.json, requirements.txt).",
+              },
+              {
+                title: "AI Engine",
+                description:
+                  "Google Gemini API (@google/genai Flash 1.5/2.0) for plain-English explanations, attack scenarios, and Git diff patch generation.",
+              },
+              {
+                title: "Data Visualization",
+                description:
+                  "Recharts SVG charts for severity donuts, technical debt trend lines, and repository health gauges.",
+              },
+              {
+                title: "Report Generation",
+                description:
+                  "@react-pdf/renderer for server-side generation of audit-ready penetration test and security assessment PDF reports.",
+              },
+              {
+                title: "Containerization",
+                description:
+                  "Docker multi-stage OCI images and Docker Compose for unified local orchestration of web, worker, postgres, and redis.",
+              },
+              {
+                title: "CI/CD & Registry",
+                description:
+                  "GitHub Actions automated workflows and GitHub Container Registry (GHCR) with immutable Git SHA tags.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"
+              >
+                <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
+                <p className="text-sm leading-6 text-slate-400">
+                  {item.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 8. Free-Tier Cloud Ecosystem */}
+        <section id="free-tier-cloud" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            8. Free-Tier Cloud Ecosystem ($0 Budget)
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            The entire platform is designed to be built, tested, hosted, and
+            operated with zero hosting cost ($0.00) by leveraging industry-standard
+            developer free tiers:
+          </p>
+
+          <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-slate-700 text-left">
+                  <th className="px-4 py-3 font-semibold text-white">
+                    Provider
+                  </th>
+                  <th className="px-4 py-3 font-semibold text-white">
+                    Free Tier Allowance
+                  </th>
+                  <th className="px-4 py-3 font-semibold text-white">
+                    Project Allocation &amp; Role
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="text-slate-400">
+                {[
+                  {
+                    provider: "Supabase",
+                    tier: "2 Projects, 500MB PostgreSQL, 1GB Storage",
+                    role: "Primary relational DB (Prisma ORM) & storage bucket for raw scan uploads (.xml, .nessus, .log)",
+                  },
+                  {
+                    provider: "Vercel",
+                    tier: "Hobby Tier (Unlimited Deploys, SSL, CDN)",
+                    role: "Hosting Next.js 16 frontend, API routes, edge middleware & serverless functions",
+                  },
+                  {
+                    provider: "Upstash",
+                    tier: "10,000 commands/day free",
+                    role: "Serverless Redis instance for rate limiting (@upstash/ratelimit) and caching",
+                  },
+                  {
+                    provider: "Google AI Studio",
+                    tier: "Free Tier (Gemini Flash 1.5/2.0)",
+                    role: "Generative AI engine for vulnerability explanations, executive summaries & Git diff patches",
+                  },
+                  {
+                    provider: "GitHub Actions",
+                    tier: "2,000 free build minutes/month",
+                    role: "Automated CI/CD execution pipeline (test, lint, Docker build, deploy trigger)",
+                  },
+                  {
+                    provider: "GHCR",
+                    tier: "Free public & private container storage",
+                    role: "OCI Docker image registry storing versioned application container images",
+                  },
+                  {
+                    provider: "NVD & CISA APIs",
+                    tier: "100% Free Public REST APIs",
+                    role: "Live vulnerability search, CVSS metrics, and CVE catalog intelligence",
+                  },
+                ].map((row) => (
+                  <tr
+                    key={row.provider}
+                    className="border-b border-slate-800/50"
+                  >
+                    <td className="px-4 py-3 font-medium text-slate-200">
+                      {row.provider}
+                    </td>
+                    <td className="px-4 py-3">{row.tier}</td>
+                    <td className="px-4 py-3">{row.role}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        {/* 9. How SecureReview AI Works */}
+        <section id="how-it-works" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            9. How SecureReview AI Works
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
             SecureReview AI follows an automated analysis workflow that
             processes source code, dependencies, and code-quality information
-            before presenting the results to the development team.
+            before presenting the results to the development team:
           </p>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
             <ol className="space-y-5">
-              <li>
-                <h3 className="font-semibold text-white">
-                  1. Repository or Pull Request Submission
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  A developer provides a repository or submits a pull request
-                  for automated analysis.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  2. Analysis Run Creation
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  The platform creates an analysis run and prepares the source
-                  code and project information for processing.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  3. Security Analysis
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Static analysis tools inspect the source code for security
-                  vulnerabilities and insecure coding patterns.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  4. Dependency Analysis
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Project dependencies are examined against vulnerability
-                  databases to identify known security issues in third-party
-                  packages.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  5. Technical Debt Analysis
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Code-quality issues and maintainability problems are
-                  identified and used to assess technical debt.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  6. Finding Normalization
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Results from different analysis tools are converted into a
-                  consistent finding format so they can be stored and displayed
-                  together.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  7. AI-Assisted Analysis
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  AI can provide explanations, context, and remediation guidance
-                  for selected security and code-quality findings.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  8. Quality Gate Evaluation
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  The analysis results are evaluated against configured security
-                  and quality conditions to determine whether the project
-                  satisfies the required quality gate.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  9. Dashboard Results
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Findings, metrics, technical debt information, and quality
-                  results are presented through the dashboard for developers and
-                  DevSecOps teams.
-                </p>
-              </li>
+              {[
+                {
+                  step: "1. Repository or Pull Request Submission",
+                  desc: "A developer connects a repository or opens a pull request on GitHub or GitLab.",
+                },
+                {
+                  step: "2. Analysis Run Creation",
+                  desc: "The platform creates an AnalysisRun record in QUEUED status and enqueues the job.",
+                },
+                {
+                  step: "3. Security Analysis",
+                  desc: "Static analysis tools inspect the changed source code for security vulnerabilities and insecure coding patterns.",
+                },
+                {
+                  step: "4. Dependency Analysis",
+                  desc: "Project manifest files are examined against OSV and NVD to identify known third-party CVEs.",
+                },
+                {
+                  step: "5. Technical Debt Analysis",
+                  desc: "Code smells, cyclomatic complexity, and duplication are measured to quantify technical debt hours.",
+                },
+                {
+                  step: "6. Finding Normalization",
+                  desc: "Results from all scanners are converted into the unified NormalizedFinding schema.",
+                },
+                {
+                  step: "7. AI-Assisted Analysis",
+                  desc: "Google Gemini AI generates plain-language explanations, exploit scenarios, and Git diff remediation patches.",
+                },
+                {
+                  step: "8. Quality Gate Evaluation",
+                  desc: "Analysis results and debt deltas are evaluated against configured quality gate thresholds.",
+                },
+                {
+                  step: "9. Dashboard Results & PR Feedback",
+                  desc: "Findings are displayed on the dashboard, posted as in-PR review comments, and reported as commit status checks.",
+                },
+              ].map((item) => (
+                <li key={item.step}>
+                  <h3 className="font-semibold text-white">{item.step}</h3>
+                  <p className="mt-1 text-sm leading-6 text-slate-400">
+                    {item.desc}
+                  </p>
+                </li>
+              ))}
             </ol>
           </div>
         </section>
 
-        {/* Analysis Pipeline */}
-        <section className="mb-10">
+        {/* 10. Analysis Pipeline */}
+        <section id="analysis-pipeline" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Analysis Pipeline
+            10. Analysis Pipeline
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
             The analysis pipeline processes repository and pull request changes
-            through a sequence of automated stages. Each stage has a specific
-            responsibility, allowing security analysis, quality analysis,
-            scoring, and AI assistance to operate as independent components.
+            through 10 isolated, automated stages:
           </p>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
             <ol className="space-y-5">
-              <li>
-                <h3 className="font-semibold text-white">
-                  1. Webhook Ingestion
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  A repository event such as a new pull request or push triggers
-                  the SecureReview AI webhook endpoint.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  2. Signature Verification
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  The webhook request is verified before processing to ensure
-                  that the event originated from the expected source.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">3. Job Queuing</h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Valid analysis requests are placed into a background task
-                  queue so that longer-running analysis does not block the main
-                  API.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  4. Isolated Analysis Worker
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  A worker retrieves the analysis job and prepares an isolated
-                  environment for processing the repository or changed files.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  5. Automated Analysis
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Security scanning, dependency analysis, code-quality analysis,
-                  and technical debt analysis are performed on the source code.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  6. Finding Normalization
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Results from the different analysis engines are converted into
-                  a unified finding structure.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  7. Scoring and Quality Evaluation
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Findings are used to calculate security, quality, technical
-                  debt, and overall health metrics. Quality gate conditions are
-                  then evaluated.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  8. AI-Assisted Processing
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Selected findings can be passed to the AI engine for
-                  plain-language explanations and remediation guidance.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  9. Result Persistence
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  Analysis results, findings, metrics, and related information
-                  are stored for later access through the application.
-                </p>
-              </li>
-
-              <li>
-                <h3 className="font-semibold text-white">
-                  10. Developer Feedback
-                </h3>
-                <p className="mt-1 text-sm leading-6 text-slate-400">
-                  The completed analysis can be presented through the dashboard
-                  and integrated into the pull request review workflow.
-                </p>
-              </li>
+              {[
+                {
+                  step: "1. Webhook Ingestion",
+                  desc: "A pull_request event triggers the /api/webhooks/github endpoint with payload and signature headers.",
+                },
+                {
+                  step: "2. HMAC SHA-256 Signature Verification",
+                  desc: "The request is validated using crypto.timingSafeEqual against the repository webhook secret to reject unauthorized or tampered requests.",
+                },
+                {
+                  step: "3. Job Queuing",
+                  desc: "The verified PR metadata is pushed to the pr-analysis BullMQ Redis queue, isolating long-running scans from the API.",
+                },
+                {
+                  step: "4. Sandboxed Analysis Worker",
+                  desc: "An unprivileged worker (non-root uid: 1001) performs a shallow Git clone of only changed files into an ephemeral /tmp/scans/{id} directory.",
+                },
+                {
+                  step: "5. Automated Multi-Engine Scanning",
+                  desc: "SAST (OWASP Top 10), secret scanning, dependency CVE lookup, cyclomatic complexity parser, and Rabin-Karp duplication tokenizer execute in parallel.",
+                },
+                {
+                  step: "6. Finding Normalization",
+                  desc: "All findings are mapped into the strict NormalizedFinding interface with unique IDs, line ranges, and metadata.",
+                },
+                {
+                  step: "7. Health & Debt Scoring",
+                  desc: "The mathematical scoring engine computes Security (S), Quality (Q), Debt (D), Maintainability (M), Complexity (C), and overall Health Scores.",
+                },
+                {
+                  step: "8. Gemini AI Synthesis",
+                  desc: "Findings are passed inside isolated XML prompt boundaries to Gemini to produce plain-English explanations and unified Git diff patches.",
+                },
+                {
+                  step: "9. Relational Persistence",
+                  desc: "Prisma ORM persists the AnalysisRun, Finding, TechnicalDebtItem, MetricSnapshot, and AIAnalysis records in PostgreSQL.",
+                },
+                {
+                  step: "10. Developer Feedback & Status Checks",
+                  desc: "A Markdown review comment is posted to the PR, and a GitHub commit status check (state: failure/success) is set for the gate result.",
+                },
+              ].map((item) => (
+                <li key={item.step}>
+                  <h3 className="font-semibold text-white">{item.step}</h3>
+                  <p className="mt-1 text-sm leading-6 text-slate-400">
+                    {item.desc}
+                  </p>
+                </li>
+              ))}
             </ol>
           </div>
         </section>
 
-        {/* Security Analysis */}
-        <section className="mb-10">
+        {/* 11. Security Analysis */}
+        <section id="security-analysis" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Security Analysis
+            11. Security Analysis (SAST &amp; Secret Scanning)
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI performs static security analysis to identify
-            vulnerabilities and insecure coding patterns within application
-            source code. The security analysis forms one of the main components
-            of the automated code review pipeline.
+            SecureReview AI performs deterministic static security analysis to
+            identify vulnerabilities and insecure coding patterns within application
+            source code. Every finding is authoritative and 100% reproducible:
           </p>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6 mb-4">
+            <h3 className="mb-3 font-semibold text-white">
+              OWASP Top 10 Detection Rules
+            </h3>
             <ul className="space-y-4 text-slate-400">
-              <li>
-                <span className="font-medium text-slate-200">
-                  Static Application Security Testing
-                </span>
-                <span className="block mt-1">
-                  Source code is analyzed without executing the application to
-                  identify potentially insecure coding patterns.
-                </span>
-              </li>
+              {[
+                {
+                  title: "SQL Injection (CWE-89)",
+                  desc: "Detects raw string concatenation or template literals in database query methods such as execute(), query(), and findRaw().",
+                },
+                {
+                  title: "Cross-Site Scripting / XSS (CWE-79)",
+                  desc: "Detects dangerous DOM injection via dangerouslySetInnerHTML, innerHTML, document.write, and unsanitized template interpolation.",
+                },
+                {
+                  title: "Command Injection (CWE-78)",
+                  desc: "Detects unescaped command execution through child_process.exec, os.system, and subprocess.Popen with shell=True.",
+                },
+                {
+                  title: "Path Traversal (CWE-22)",
+                  desc: "Detects unvalidated file path concatenation with user input in file system operations (path.join with untrusted inputs).",
+                },
+                {
+                  title: "Weak Cryptography (CWE-327)",
+                  desc: "Detects obsolete algorithms including MD5, SHA1, DES, and static hardcoded initialization vectors (IVs).",
+                },
+                {
+                  title: "Insecure Deserialization (CWE-502)",
+                  desc: "Detects unsafe object unpickling via pickle.loads and yaml.load with unsafe Loader.",
+                },
+              ].map((item) => (
+                <li key={item.title}>
+                  <span className="font-medium text-slate-200">
+                    {item.title}
+                  </span>
+                  <span className="block mt-1">{item.desc}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
 
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+            <h3 className="mb-3 font-semibold text-white">
+              High-Entropy Secret Detection
+            </h3>
+            <ul className="space-y-3 text-sm text-slate-400">
               <li>
-                <span className="font-medium text-slate-200">
-                  Semgrep Analysis
-                </span>
-                <span className="block mt-1">
-                  Semgrep is used to detect security issues using predefined and
-                  project-specific rules.
-                </span>
+                • AWS Access Keys:{" "}
+                <code className="text-cyan-400">AKIA[0-9A-Z]&#123;16&#125;</code>
               </li>
-
               <li>
-                <span className="font-medium text-slate-200">
-                  Custom Security Rules
-                </span>
-                <span className="block mt-1">
-                  Custom rules can be added to detect security patterns that are
-                  specific to the project or supported programming languages.
-                </span>
+                • GitHub Personal Access Tokens:{" "}
+                <code className="text-cyan-400">ghp_[0-9a-zA-Z]&#123;36&#125;</code>
               </li>
-
               <li>
-                <span className="font-medium text-slate-200">
-                  Finding Details
-                </span>
-                <span className="block mt-1">
-                  Detected issues are converted into structured findings
-                  containing information such as severity, location,
-                  description, and remediation guidance.
-                </span>
+                • Private Cryptographic Keys:{" "}
+                <code className="text-cyan-400">
+                  -----BEGIN (RSA|EC|OPENSSH) PRIVATE KEY-----
+                </code>
               </li>
-
               <li>
-                <span className="font-medium text-slate-200">
-                  Severity Classification
-                </span>
-                <span className="block mt-1">
-                  Security findings are classified according to their severity
-                  so that important issues can be identified and prioritized.
-                </span>
+                • Shannon Entropy string analysis on variables named password, secret, token, or apiKey
               </li>
             </ul>
           </div>
         </section>
 
-        {/* Dependency Analysis */}
-        <section className="mb-10">
+        {/* 12. Dependency Analysis */}
+        <section id="dependency-analysis" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Dependency Analysis
+            12. Dependency Analysis (CVEs)
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI analyzes third-party dependencies used by a project
-            and checks them against known vulnerability information. This helps
-            identify security risks that may exist within external packages even
-            when the application's own source code does not contain the
-            vulnerability.
+            SecureReview AI inspects package manifest files to detect known
+            vulnerabilities in third-party libraries using public databases:
           </p>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
             <ul className="space-y-4 text-slate-400">
-              <li>
-                <span className="font-medium text-slate-200">
-                  Dependency Detection
-                </span>
-                <span className="block mt-1">
-                  Project manifest files are inspected to identify the packages
-                  and versions used by the application.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Vulnerability Lookup
-                </span>
-                <span className="block mt-1">
-                  Detected dependencies are checked against vulnerability
-                  databases such as OSV and NVD.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Vulnerability Details
-                </span>
-                <span className="block mt-1">
-                  Matching vulnerabilities can provide information such as
-                  affected package versions, vulnerability identifiers,
-                  severity, and available remediation information.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Risk Identification
-                </span>
-                <span className="block mt-1">
-                  Vulnerable dependencies are converted into structured findings
-                  so they can be combined with source-code security findings.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Remediation Guidance
-                </span>
-                <span className="block mt-1">
-                  Developers can use the identified vulnerability information to
-                  determine whether a dependency should be updated, replaced, or
-                  otherwise addressed.
-                </span>
-              </li>
+              {[
+                {
+                  title: "Manifest Parsing",
+                  desc: "Extracts package names and exact version ranges from package.json, requirements.txt, and lockfiles.",
+                },
+                {
+                  title: "Vulnerability Database Lookup",
+                  desc: "Queries the Open Source Vulnerabilities (OSV) API and NVD REST API 2.0 for matching CVE identifiers.",
+                },
+                {
+                  title: "CVSS Severity Classification",
+                  desc: "Maps vulnerabilities to CVSS v3.1/v4.0 base scores and severity levels (CRITICAL, HIGH, MEDIUM, LOW).",
+                },
+                {
+                  title: "Remediation Guidance",
+                  desc: "Recommends minimum non-vulnerable upgrade versions and displays direct links to vendor security advisories.",
+                },
+              ].map((item) => (
+                <li key={item.title}>
+                  <span className="font-medium text-slate-200">
+                    {item.title}
+                  </span>
+                  <span className="block mt-1">{item.desc}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </section>
-        {/* Technical Debt Analysis */}
-        <section className="mb-10">
+
+        {/* 13. Technical Debt Analysis */}
+        <section id="technical-debt" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Technical Debt Analysis
+            13. Technical Debt Engine
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI evaluates code-quality and maintainability issues
-            that may increase technical debt over time. The analysis uses
-            automated code-quality checks and complexity-related metrics to
-            identify areas that may require refactoring or improvement.
+            The platform quantifies technical debt in estimated remediation
+            hours and prioritizes issues to maximize refactoring impact:
+          </p>
+
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6 mb-4">
+            <ul className="space-y-4 text-slate-400">
+              {[
+                {
+                  title: "Cyclomatic Complexity Engine",
+                  desc: "Parses source code into AST and computes CC = 1 + Count(if, for, while, case, catch, &&, ||, ?:). Functions with CC > 15 are flagged as medium hotspots, and CC > 25 as high.",
+                },
+                {
+                  title: "AST Duplication Tokenizer",
+                  desc: "Tokenizes code blocks, strips comments and whitespace, and detects duplicate fragments of ≥10 lines using a rolling hash (Rabin-Karp).",
+                },
+                {
+                  title: "Code Smell Detection",
+                  desc: "Identifies Long Methods (>60 lines), God Classes (>500 lines or >20 methods), Excessive Parameters (>5 args), and tracks unresolved TODO/FIXME markers.",
+                },
+              ].map((item) => (
+                <li key={item.title}>
+                  <span className="font-medium text-slate-200">
+                    {item.title}
+                  </span>
+                  <span className="block mt-1">{item.desc}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* 14. Finding Normalization */}
+        <section id="finding-normalization" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            14. Finding Normalization
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            All analysis engines (SAST, secrets, dependencies, quality, complexity,
+            and CyberMind parsers) output findings mapped to a single unified
+            data contract.
           </p>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
             <ul className="space-y-4 text-slate-400">
-              <li>
-                <span className="font-medium text-slate-200">
-                  Code Quality Analysis
-                </span>
-                <span className="block mt-1">
-                  Source code is analyzed for common quality and maintainability
-                  issues using automated code-quality rules.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Complexity Analysis
-                </span>
-                <span className="block mt-1">
-                  Code complexity is evaluated to identify functions or
-                  components that may be difficult to understand, maintain, or
-                  modify.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Maintainability Issues
-                </span>
-                <span className="block mt-1">
-                  Repeated patterns, overly complex code, and other
-                  maintainability problems are identified as potential sources
-                  of technical debt.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Technical Debt Findings
-                </span>
-                <span className="block mt-1">
-                  Detected issues are converted into structured findings that
-                  can be tracked together with security and dependency findings.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Remediation Guidance
-                </span>
-                <span className="block mt-1">
-                  Developers can use the findings to identify areas where
-                  refactoring or code-quality improvements may reduce future
-                  maintenance effort.
-                </span>
-              </li>
+              {[
+                {
+                  title: "Uniform Severity Spectrum",
+                  desc: "All findings are assigned one of: CRITICAL, HIGH, MEDIUM, LOW, INFO.",
+                },
+                {
+                  title: "Category Classification",
+                  desc: "Findings belong to: SECURITY_VULNERABILITY, SECRET_LEAK, DEPENDENCY_CVE, CODE_SMELL, COMPLEXITY_HOTSPOT, DUPLICATION, or MAINTAINABILITY.",
+                },
+                {
+                  title: "Deterministic Integrity Flag",
+                  desc: "Every scanner finding is flagged isDeterministic: true, ensuring clear separation from AI-generated interpretations.",
+                },
+              ].map((item) => (
+                <li key={item.title}>
+                  <span className="font-medium text-slate-200">
+                    {item.title}
+                  </span>
+                  <span className="block mt-1">{item.desc}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </section>
-        {/* Finding Normalization */}
-        <section className="mb-10">
+
+        {/* 15. Normalized Finding Schema */}
+        <section id="finding-schema" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Finding Normalization
+            15. Normalized Finding Schema
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI combines findings from multiple analysis sources
-            into a common structure. Normalization allows security, dependency,
-            and technical debt findings to be processed consistently throughout
-            the platform.
+            Every finding produced conforms to this strict TypeScript interface:
           </p>
 
-          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
-            <ul className="space-y-4 text-slate-400">
-              <li>
-                <span className="font-medium text-slate-200">
-                  Common Finding Structure
-                </span>
-                <span className="block mt-1">
-                  Results from different analysis tools are converted into a
-                  consistent finding format.
-                </span>
-              </li>
+          <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+            <pre className="text-sm leading-7 text-slate-300">
+              {`type SeverityLevel = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFO";
 
-              <li>
-                <span className="font-medium text-slate-200">
-                  Finding Classification
-                </span>
-                <span className="block mt-1">
-                  Each finding contains information such as its category,
-                  severity, source, and location within the analyzed project.
-                </span>
-              </li>
+type FindingCategory =
+  | "SECURITY_VULNERABILITY"
+  | "SECRET_LEAK"
+  | "DEPENDENCY_CVE"
+  | "CODE_SMELL"
+  | "COMPLEXITY_HOTSPOT"
+  | "DUPLICATION"
+  | "MAINTAINABILITY";
 
-              <li>
-                <span className="font-medium text-slate-200">
-                  Source Tracking
-                </span>
-                <span className="block mt-1">
-                  The platform keeps track of which analysis engine produced
-                  each finding so that the original source can be identified.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Unified Processing
-                </span>
-                <span className="block mt-1">
-                  Normalized findings can be stored, scored, displayed, and
-                  processed by other components without requiring each component
-                  to understand every scanner's original output format.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  AI Integration
-                </span>
-                <span className="block mt-1">
-                  The normalized structure also provides a consistent input
-                  format for AI-assisted explanation and remediation workflows.
-                </span>
-              </li>
-            </ul>
+interface NormalizedFinding {
+  id: string;                         // UUID / CUID
+  analysisRunId: string;
+  category: FindingCategory;
+  ruleId: string;                     // e.g. "owasp-sqli-01", "entropy-jwt-secret"
+  title: string;                      // Concise summary e.g. "SQL Injection in User Query"
+  severity: SeverityLevel;
+  filePath: string;                   // Relative path e.g. "src/controllers/auth.ts"
+  startLine: number;
+  endLine: number;
+  codeSnippet?: string;               // Matching snippet from AST
+  description: string;                // Authoritative technical explanation
+  mitreTechniqueId?: string;          // e.g. "T1190", "T1059", "T1110"
+  cveId?: string;                     // e.g. "CVE-2023-38606"
+  cvssScore?: number;                 // Base score 0.0 - 10.0
+  isDeterministic: boolean;           // Always true for scanner outputs
+  aiExplanation?: string;             // Plain-English translation from Gemini
+  remediationDiff?: string;           // Unified Git diff patch generated by Gemini
+}`}
+            </pre>
           </div>
         </section>
-        {/* AI Assistance */}
-        <section className="mb-10">
+
+        {/* 16. Deterministic vs AI Principle */}
+        <section id="deterministic-vs-ai" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            AI Assistance
+            16. The Core Principle: Deterministic Detection vs. AI Assistance
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI uses artificial intelligence to help developers
-            understand selected security and code-quality findings. The
-            deterministic analysis tools remain responsible for detecting
-            issues, while the AI layer focuses on explaining findings and
-            providing remediation guidance.
-          </p>
-
-          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
-            <ul className="space-y-4 text-slate-400">
-              <li>
-                <span className="font-medium text-slate-200">
-                  Finding Explanation
-                </span>
-                <span className="block mt-1">
-                  AI can explain a detected finding in clear, developer-friendly
-                  language and describe why the issue matters.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Remediation Guidance
-                </span>
-                <span className="block mt-1">
-                  AI can provide suggested approaches for fixing or reducing the
-                  identified security or code-quality issue.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Context-Aware Assistance
-                </span>
-                <span className="block mt-1">
-                  Relevant finding information and source-code context can be
-                  provided to the AI so that its explanation is related to the
-                  detected issue.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Structured Output
-                </span>
-                <span className="block mt-1">
-                  AI responses are handled as structured application data so
-                  they can be associated with the corresponding finding and
-                  displayed through the platform.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">Human Review</span>
-                <span className="block mt-1">
-                  AI-generated explanations and recommendations are intended to
-                  assist developers and should be reviewed before changes are
-                  applied to production code.
-                </span>
-              </li>
-            </ul>
-          </div>
-        </section>
-        {/* Scoring & Health Metrics */}
-        <section className="mb-10">
-          <h2 className="mb-4 text-2xl font-semibold text-white">
-            Scoring &amp; Health Metrics
-          </h2>
-
-          <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI uses deterministic and explainable metrics to
-            summarize the security, code quality, and technical debt of a
-            repository. These metrics help developers understand the overall
-            condition of a project and identify areas that require attention.
+            A foundational requirement for both enterprise DevSecOps credibility
+            and academic research defense is maintaining a strict boundary
+            between deterministic code analysis and probabilistic generative AI:
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">Security Score</h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Represents the security condition of the repository based on
-                detected security findings and their severity.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Code Quality Score
+            <div className="rounded-xl border border-cyan-500/30 bg-cyan-500/5 p-5">
+              <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400">
+                Authoritative Engine
+              </span>
+              <h3 className="mt-1 mb-2 font-semibold text-white">
+                Deterministic Code Analysis
               </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Summarizes code-quality issues such as code smells, complexity,
-                duplication, and maintainability problems.
+              <p className="text-sm leading-6 text-slate-400 mb-3">
+                <strong>Role: Authoritative Detection of What Exists</strong>
               </p>
+              <ul className="space-y-2 text-xs leading-5 text-slate-400">
+                <li>• Semgrep AST rules &amp; regex security scanners</li>
+                <li>• Static cyclomatic &amp; cognitive complexity calculators</li>
+                <li>• Rabin-Karp AST code duplication detection</li>
+                <li>• High-entropy secret and credential scanners</li>
+                <li>• <strong>Never hallucinates findings</strong></li>
+                <li>• Guarantees 100% reproducible line numbers, rule IDs, and severities</li>
+              </ul>
             </div>
 
             <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Technical Debt Score
+              <span className="text-xs font-semibold uppercase tracking-wider text-purple-400">
+                Generative AI Layer
+              </span>
+              <h3 className="mt-1 mb-2 font-semibold text-white">
+                Google Gemini AI Enhancement
               </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Represents the estimated impact of accumulated code-quality and
-                maintainability problems.
+              <p className="text-sm leading-6 text-slate-400 mb-3">
+                <strong>Role: Interpretation, Education &amp; Remediation</strong>
               </p>
+              <ul className="space-y-2 text-xs leading-5 text-slate-400">
+                <li>• Translates complex CWE / CVE data into plain English</li>
+                <li>• Contextualizes exploitability against the application framework</li>
+                <li>• Prioritizes which bugs to fix first based on threat posture</li>
+                <li>• Generates secure Git diff replacement patches</li>
+                <li>• Synthesizes executive summaries for managers</li>
+                <li>• <strong>Never invents security findings out of thin air</strong></li>
+              </ul>
             </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Repository Health Score
-              </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Combines relevant security, quality, and technical-debt
-                measurements into an overall repository health indicator.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-6">
-            <h3 className="mb-3 font-semibold text-white">
-              Explainable Scoring
-            </h3>
-
-            <p className="leading-7 text-slate-400">
-              The scoring system uses documented formulas and defined weights so
-              that developers can understand how a score was calculated. AI is
-              not responsible for generating the underlying scores.
-            </p>
           </div>
         </section>
-        {/* Quality Gates */}
-        <section className="mb-10">
+
+        {/* 17. AI Assistance */}
+        <section id="ai-assistance" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Quality Gates
+            17. AI Assistance (Google Gemini API)
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            Quality gates allow SecureReview AI to evaluate analysis results
-            against predefined security and code-quality conditions. They help
-            determine whether a repository or pull request satisfies the
-            required standards.
+            SecureReview AI utilizes the Google Gemini API (@google/genai Flash 1.5/2.0)
+            under Google AI Studio&apos;s free tier. The AI engine receives
+            structured prompts with isolated XML delimiters to ensure security
+            and focus:
           </p>
 
           <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
             <ul className="space-y-4 text-slate-400">
-              <li>
-                <span className="font-medium text-slate-200">
-                  Security Conditions
-                </span>
-                <span className="block mt-1">
-                  Quality gates can check for conditions such as unacceptable
-                  security findings or high-severity vulnerabilities.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Code-Quality Conditions
-                </span>
-                <span className="block mt-1">
-                  Code-quality and technical-debt measurements can be evaluated
-                  against configured thresholds.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Pass or Fail Result
-                </span>
-                <span className="block mt-1">
-                  The configured conditions produce a clear quality-gate result
-                  that indicates whether the analyzed changes satisfy the
-                  required standards.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Pull Request Integration
-                </span>
-                <span className="block mt-1">
-                  Quality-gate results can be used as part of the pull request
-                  review workflow to provide automated feedback before changes
-                  are merged.
-                </span>
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">
-                  Configurable Thresholds
-                </span>
-                <span className="block mt-1">
-                  Thresholds can be configured according to the requirements of
-                  the project or development team.
-                </span>
-              </li>
+              {[
+                {
+                  title: "Plain-English Vulnerability Explanations",
+                  desc: "Translates technical CWE descriptions into clear explanations of why the code is vulnerable, how an attacker could exploit it, and step-by-step mitigation.",
+                },
+                {
+                  title: "Automated Git Diff Patch Synthesis",
+                  desc: "Generates unified diff blocks (```diff ... ```) that resolve the security issue while preserving the original functional logic.",
+                },
+                {
+                  title: "PR Executive Summaries",
+                  desc: "Condenses the PR's entire risk profile into a 3-bullet executive summary for engineering leads and managers.",
+                },
+                {
+                  title: "Streaming Security Consultation Chat",
+                  desc: "Interactive RAG-enabled chat assistant (/chat) allowing developers to ask targeted remediation questions about their repository findings.",
+                },
+              ].map((item) => (
+                <li key={item.title}>
+                  <span className="font-medium text-slate-200">
+                    {item.title}
+                  </span>
+                  <span className="block mt-1">{item.desc}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </section>
-        {/* Dashboard */}
-        <section className="mb-10">
-          <h2 className="mb-4 text-2xl font-semibold text-white">Dashboard</h2>
 
-          <p className="mb-6 leading-8 text-slate-400">
-            The SecureReview AI dashboard provides a centralized view of
-            repository security, code quality, technical debt, analysis history,
-            and quality gate results. It allows developers and DevSecOps teams
-            to understand detected issues and monitor improvements over time.
-          </p>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Security Findings
-              </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Displays detected security vulnerabilities, their severity,
-                locations, descriptions, and remediation information.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Dependency Findings
-              </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Shows vulnerable third-party dependencies and relevant
-                vulnerability information.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">Technical Debt</h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Presents technical debt measurements and identifies areas that
-                may require refactoring or improvement.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">Health Metrics</h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Provides security, quality, technical-debt, and overall
-                repository health metrics.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Analysis History
-              </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Allows previous analysis runs to be reviewed and compared so
-                that changes in project health can be monitored over time.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
-              <h3 className="mb-2 font-semibold text-white">
-                Quality Gate Status
-              </h3>
-              <p className="text-sm leading-6 text-slate-400">
-                Clearly presents whether the analyzed repository or pull request
-                passed or failed the configured quality conditions.
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-6">
-            <h3 className="mb-3 font-semibold text-white">
-              AI-Assisted Findings
-            </h3>
-
-            <p className="leading-7 text-slate-400">
-              When AI assistance is available for a finding, the dashboard can
-              display its explanation and remediation guidance alongside the
-              deterministic analysis results.
-            </p>
-          </div>
-        </section>
-        {/* Project Structure */}
-        <section className="mb-10">
+        {/* 18. Scoring Metrics */}
+        <section id="scoring-metrics" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Project Structure
+            18. Scoring &amp; Health Metrics
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI is organized as a modular project so that the
-            frontend, backend services, analysis workers, shared components, and
-            configuration can be developed and maintained independently.
+            SecureReview AI computes deterministic, explainable, and reproducible
+            scores bounded between 0.0 and 100.0:
+          </p>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              {
+                title: "Security Score (S) — Weight: 30%",
+                desc: "Base of 100, penalized by active vulnerabilities (Critical: -25, High: -10, Medium: -4, Low: -1).",
+              },
+              {
+                title: "Code Quality Score (Q) — Weight: 25%",
+                desc: "Penalized based on code smell density per thousand lines of code (KLOC).",
+              },
+              {
+                title: "Technical Debt Score (D) — Weight: 20%",
+                desc: "Inverted ratio of estimated remediation hours to total codebase development effort.",
+              },
+              {
+                title: "Maintainability Score (M) — Weight: 15%",
+                desc: "Derived from the Halstead and Cyclomatic Maintainability Index (MI).",
+              },
+              {
+                title: "Complexity Score (C) — Weight: 10%",
+                desc: "Deducts points when average function cyclomatic complexity exceeds standard thresholds.",
+              },
+              {
+                title: "Overall Repository Health Score",
+                desc: "Weighted composite score: Health = (S×0.30) + (Q×0.25) + (D×0.20) + (M×0.15) + (C×0.10).",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"
+              >
+                <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
+                <p className="text-sm leading-6 text-slate-400">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 19. Scoring Formulas */}
+        <section id="scoring-formulas" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            19. Mathematical Scoring Formulas &amp; Algorithms
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            Every score is mathematically grounded rather than generated
+            arbitrarily:
+          </p>
+
+          <div className="space-y-4">
+            <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+              <h3 className="mb-2 font-semibold text-white">
+                1. Unified Repository Health Score Model
+              </h3>
+              <pre className="text-sm leading-7 text-cyan-400">
+                {`Health Score = (S × 0.30) + (Q × 0.25) + (D × 0.20) + (M × 0.15) + (C × 0.10)
+
+Where:
+  S = max(0, 100 - (N_critical × 25 + N_high × 10 + N_medium × 4 + N_low × 1))
+  Q = max(0, 100 - ((Total_Smells / KLOC) × 15))
+  D = max(0, 100 × (1 - (Remediation_Hours / (0.05 × Total_Lines_of_Code))))
+  M = max(0, 171 - 5.2 × ln(V) - 0.23 × CC - 16.2 × ln(LOC)) × (100 / 171)
+  C = 100 if CC_avg <= 5; 100 - (CC_avg - 5) × 5 if 5 < CC_avg <= 20; 25 if CC_avg > 20`}
+              </pre>
+            </div>
+
+            <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+              <h3 className="mb-2 font-semibold text-white">
+                2. Technical Debt Quantification (Remediation Hours)
+              </h3>
+              <pre className="text-sm leading-7 text-cyan-400">
+                {`T_remed = Σ(Smell_i × H_smell) + (N_dup_blocks × 1.5) + (N_complex_funcs × 2.0) + (N_todos × 0.5)
+
+Standard Labor Effort Estimates:
+  Critical Security finding:  4.0 hours (Weight: 10.0)
+  High Security finding:      2.5 hours (Weight: 7.0)
+  Architectural Debt:         8.0 – 16.0 hours (Weight: 8.0)
+  Complex function (CC > 20): 2.0 hours (Weight: 5.0)
+  Duplicated code block:      1.5 hours (Weight: 4.0)
+  Code Smell (Long method):   1.0 hour  (Weight: 3.0)
+  Unresolved TODO/FIXME:      0.5 hours (Weight: 2.0)`}
+              </pre>
+            </div>
+
+            <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+              <h3 className="mb-2 font-semibold text-white">
+                3. The &quot;Refactor First&quot; Priority Algorithm
+              </h3>
+              <pre className="text-sm leading-7 text-cyan-400">
+                {`Priority Rank = (Severity_Impact × File_Churn_Rate) / Estimated_Remediation_Effort_Hours`}
+              </pre>
+              <p className="mt-3 text-sm text-slate-400">
+                Ranks all debt items by their impact-to-effort ratio. Files with
+                frequent commits (high churn) and severe issues get surfaced to the
+                top of the developer refactoring queue.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* 20. Quality Gates */}
+        <section id="quality-gates" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            20. Configurable Quality &amp; Security Gates
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            Quality gates evaluate PR changes against configurable policy
+            thresholds. A single violation triggers a FAILED gate, blocking the PR:
+          </p>
+
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+            <ul className="space-y-4 text-slate-400">
+              {[
+                {
+                  title: "Security Gate Thresholds",
+                  desc: "Block on any new Critical vulnerability. Configurable tolerance for High (default: 0) and Medium (default: 3) findings.",
+                },
+                {
+                  title: "Technical Debt Delta Gate",
+                  desc: "Reject PRs where debt increase exceeds the allowed delta (default: max +2.0 hours increase per PR).",
+                },
+                {
+                  title: "Minimum Health Score Gate",
+                  desc: "Enforce a repository health floor (e.g. Health Score must remain ≥ 75.0 / 100).",
+                },
+                {
+                  title: "Automated PR Feedback",
+                  desc: "Gate status is communicated via GitHub commit status checks (state: failure/success) and detailed in-PR Markdown review comments.",
+                },
+              ].map((item) => (
+                <li key={item.title}>
+                  <span className="font-medium text-slate-200">
+                    {item.title}
+                  </span>
+                  <span className="block mt-1">{item.desc}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        {/* 21. Quality Gate Configuration */}
+        <section id="gate-configuration" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            21. Quality Gate Configuration Schema
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            Policy configuration (secure-review.config.json or database JSON):
+          </p>
+
+          <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+            <pre className="text-sm leading-7 text-slate-300">
+              {`{
+  "$schema": "https://securereview.dev/schemas/config.v1.json",
+  "version": "1.0",
+  "qualityGate": {
+    "enabled": true,
+    "blockOnCriticalSecurity": true,
+    "maxAllowedHighSecurity": 0,
+    "maxAllowedMediumSecurity": 3,
+    "maxAllowedLowSecurity": 10,
+    "maxAllowedTechnicalDebtIncreaseHours": 2.0,
+    "minAllowableOverallHealthScore": 75.0,
+    "minAllowableSecurityScore": 80.0,
+    "maxAllowableDuplicationPercent": 3.0,
+    "maxFunctionComplexity": 20
+  },
+  "notifications": {
+    "prComment": true,
+    "commitStatusCheck": true,
+    "failBuildOnGateFailure": true
+  },
+  "scanners": {
+    "sast": true,
+    "secrets": true,
+    "dependencies": true,
+    "codeQuality": true,
+    "technicalDebt": true
+  },
+  "aiAssistance": {
+    "generateExplanations": true,
+    "generateRemediationDiffs": true,
+    "model": "gemini-1.5-flash"
+  }
+}`}
+            </pre>
+          </div>
+
+          <div className="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+            <h3 className="mb-2 font-semibold text-white">
+              Evaluation Outcome Rules
+            </h3>
+            <pre className="text-sm leading-7 text-slate-400">
+              {`IF (New_Critical_Findings > 0)             → GATE REJECTED (Status: FAILED)
+IF (New_High_Findings > Policy.Max)        → GATE REJECTED (Status: FAILED)
+IF (Debt_Delta_Hours > Policy.MaxDebtDelta)→ GATE REJECTED (Status: FAILED)
+IF (Final_Health_Score < Policy.MinHealth) → GATE REJECTED (Status: FAILED)
+ELSE                                       → GATE APPROVED (Status: PASSED)`}
+            </pre>
+          </div>
+        </section>
+
+        {/* 22. Dashboard */}
+        <section id="dashboard" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            22. Web Dashboard &amp; Analytics
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            The Next.js 16 Web Dashboard provides executive overviews, detailed
+            PR inspection drawers, and Recharts analytics:
+          </p>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {[
+              {
+                title: "Severity Donut Chart",
+                desc: "Interactive breakdown of Critical, High, Medium, and Low vulnerabilities across repositories.",
+              },
+              {
+                title: "Technical Debt Trend Chart",
+                desc: "Historical 30-day timeline tracking remediation hours and debt regressions over time.",
+              },
+              {
+                title: "File-Tree Hotspot Visualizer",
+                desc: "Hierarchical visual tree color-coding files by risk (Green: Clean, Yellow: Moderate, Red: Critical).",
+              },
+              {
+                title: "Detailed PR Analysis Drawer",
+                desc: "Side-by-side view with line-numbered vulnerable code, AST evidence, and Gemini Git diff patches.",
+              },
+              {
+                title: "Top Vulnerable Repositories",
+                desc: "Comparative bar charts ranking projects by vulnerability density and technical debt hours.",
+              },
+              {
+                title: "Quality Gate Banner",
+                desc: "Prominent PASSED/FAILED indicator with individual rule checks and one-click report export.",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"
+              >
+                <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
+                <p className="text-sm leading-6 text-slate-400">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 23. Database Architecture */}
+        <section id="database-architecture" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            23. Database Architecture &amp; Prisma Schema
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            The relational schema implements a multi-tenant, tenant-isolated
+            architecture supporting 12 models in PostgreSQL (Supabase) via Prisma:
+          </p>
+
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { model: "User", desc: "User accounts, email, avatar, GitHub/GitLab OAuth IDs" },
+              { model: "Organization", desc: "Tenants with unique slug and team memberships" },
+              { model: "TeamMember", desc: "User-organization junction with RBAC (OWNER, ADMIN, DEV, VIEWER)" },
+              { model: "Repository", desc: "Connected repos, clone URLs, webhook secrets, gate config" },
+              { model: "PullRequest", desc: "PR number, title, author, source/target branches, commit SHA" },
+              { model: "AnalysisRun", desc: "Scoring results, gateStatus, debt hours total & delta, timestamps" },
+              { model: "Finding", desc: "Normalized findings, line ranges, snippet, ruleId, MITRE/CVE tags, diff" },
+              { model: "TechnicalDebtItem", desc: "Debt category, effort hours, priority weight, file path" },
+              { model: "MetricSnapshot", desc: "LOC, cyclomaticAvg, duplicationPct, smellDensity, severity counts" },
+              { model: "AIAnalysis", desc: "Executive summary, risk factors JSON, suggestedAction, token usage" },
+              { model: "ScanReport", desc: "Uploaded Nmap XML, Nessus v2, Syslog parsed payloads & stats" },
+              { model: "ChatSession / Message", desc: "Multi-session AI security consultation chat history" },
+            ].map((item) => (
+              <div
+                key={item.model}
+                className="rounded-xl border border-slate-800 bg-slate-900/60 p-4"
+              >
+                <h3 className="mb-1 text-sm font-semibold text-cyan-400">
+                  {item.model}
+                </h3>
+                <p className="text-xs leading-5 text-slate-400">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+            <h3 className="mb-2 font-semibold text-white">
+              Tenant Isolation Proof
+            </h3>
+            <p className="text-sm leading-6 text-slate-400">
+              Strict isolation is enforced through the{" "}
+              <code className="text-cyan-400">Organization → Repository → PullRequest → AnalysisRun</code>{" "}
+              ownership chain. All API routes and queries use a tenant guard middleware:
+              queries include{" "}
+              <code className="text-cyan-400">where: &#123; organizationId: session.orgId &#125;</code>{" "}
+              to guarantee zero cross-tenant data leakage.
+            </p>
+          </div>
+        </section>
+
+        {/* 24. Project Structure */}
+        <section id="project-structure" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            24. Monorepo Project Structure
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            The monorepo cleanly decouples the web application, analysis workers,
+            and shared calculation packages:
           </p>
 
           <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 p-6">
             <pre className="text-sm leading-7 text-slate-300">
               {`secure-code-review-platform/
-│
 ├── apps/
-│   ├── web/
-│   │   ├── app/
-│   │   ├── components/
-│   │   └── lib/
-│   │
-│   ├── api/
-│   │   ├── src/
-│   │   └── prisma/
-│   │
-│   └── worker/
-│       └── src/
+│   ├── web/                          # Next.js 16 App Router Frontend & Server Actions
+│   │   ├── app/                      # App router directory
+│   │   │   ├── (auth)/               # Auth routes (login, register)
+│   │   │   ├── (dashboard)/          # Dashboard routes (repos, prs, cves, scans, chat)
+│   │   │   ├── documentation/        # Full-page documentation
+│   │   │   └── api/                  # API endpoints (webhooks, ai/chat, cve, reports)
+│   │   ├── components/               # UI components, charts, diff viewer, layout
+│   │   ├── lib/                      # Client/server utils, auth, parsers (Nmap, Nessus, Syslog)
+│   │   └── public/                   # Static assets, branding, architecture diagrams
+│   └── api/                          # Optional standalone microservice
+│
+├── services/
+│   ├── analysis-worker/              # BullMQ queue consumer & sandboxed Git clone runner
+│   ├── security-scanner/             # SAST & high-entropy secret detection rules
+│   ├── quality-engine/               # Cyclomatic complexity, duplication, code smells
+│   ├── debt-engine/                  # Technical debt calculator & Refactor-First sorter
+│   └── ai-service/                   # Google Gemini AI wrapper, prompts & diff synthesizer
 │
 ├── packages/
-│   ├── shared/
-│   ├── analysis/
-│   └── config/
+│   ├── shared-types/                 # NormalizedFinding, GateStatus, PRPayload contracts
+│   └── scoring/                      # Health score formulas, Quality gate evaluator, MITRE map
 │
-├── rules/
-│   ├── security/
-│   └── quality/
-│
-├── docker/
-│
-├── .github/
-│   └── workflows/
-│
-├── docker-compose.yml
-├── package.json
-└── README.md`}
+├── docker/                           # web.Dockerfile, worker.Dockerfile, compose.yml
+├── .github/workflows/                # ci.yml (test/build) & cd.yml (GHCR publish/deploy)
+├── prisma/                           # Master schema.prisma & seed.ts
+├── tests/                            # Unit, integration, security & benchmark test suites
+└── package.json                      # Workspace configuration (npm/pnpm workspaces)`}
             </pre>
-          </div>
-
-          <div className="mt-4 rounded-xl border border-slate-800 bg-slate-900/60 p-6">
-            <h3 className="mb-3 font-semibold text-white">Main Components</h3>
-
-            <ul className="space-y-3 text-sm leading-6 text-slate-400">
-              <li>
-                <span className="font-medium text-slate-200">Web:</span>{" "}
-                Provides the user interface, dashboard, documentation, and
-                repository-related views.
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">API:</span>{" "}
-                Provides backend application logic and communication between the
-                frontend and analysis services.
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">Worker:</span>{" "}
-                Performs background analysis tasks that may require more
-                processing time.
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">Packages:</span>{" "}
-                Contains shared functionality and configuration used across the
-                application components.
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">Rules:</span>{" "}
-                Contains security and code-quality analysis rules.
-              </li>
-
-              <li>
-                <span className="font-medium text-slate-200">Docker:</span>{" "}
-                Contains containerization and environment configuration used to
-                run the platform consistently.
-              </li>
-            </ul>
           </div>
         </section>
 
-        {/* Development Roadmap */}
-        <section className="mb-10">
+        {/* 25. Development Roadmap */}
+        <section id="roadmap" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Development Roadmap
+            25. 21-Phase End-to-End Implementation Blueprint
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI will be developed incrementally. The core platform
-            will be completed and validated first, followed by deployment
-            engineering, testing, and optional future extensions.
+            The project follows a rigorous 21-phase implementation lifecycle
+            grouped into three master phases:
           </p>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {[
-              {
-                phase: "Phase 1",
-                title: "Requirements",
-                description:
-                  "Define users, requirements, security requirements, supported languages, scoring, and the core project scope.",
-              },
-              {
-                phase: "Phase 2",
-                title: "System Design",
-                description:
-                  "Design the architecture, database, APIs, authentication, repository integration, asynchronous workflow, and AI service.",
-              },
-              {
-                phase: "Phase 3",
-                title: "Authentication & Multi-Tenancy",
-                description:
-                  "Implement authentication, organizations, repository ownership, role-based access control, tenant isolation, and sessions.",
-              },
-              {
-                phase: "Phase 4",
-                title: "Repository Integration",
-                description:
-                  "Implement OAuth, repository selection, webhook registration, signature verification, and pull request or commit extraction.",
-              },
-              {
-                phase: "Phase 5",
-                title: "Automated Code Analysis",
-                description:
-                  "Build the analysis worker and implement repository retrieval, changed-file analysis, security scanning, quality analysis, complexity, and duplication checks.",
-              },
-              {
-                phase: "Phase 6",
-                title: "Security Analysis",
-                description:
-                  "Implement vulnerability rules, secret detection, dependency analysis, severity classification, evidence, and recommendations.",
-              },
-              {
-                phase: "Phase 7",
-                title: "Technical Debt",
-                description:
-                  "Implement technical-debt categories, scoring, prioritization, hotspots, and historical tracking.",
-              },
-              {
-                phase: "Phase 8",
-                title: "Dashboard & Health",
-                description:
-                  "Build security, quality, and technical-debt metrics, repository health scores, trends, findings, filters, and hotspots.",
-              },
-              {
-                phase: "Phase 9",
-                title: "PR Review & Quality Gates",
-                description:
-                  "Implement quality and security gates, pull request comments or statuses, and notifications.",
-              },
-              {
-                phase: "Phase 10",
-                title: "AI Assistance",
-                description:
-                  "Add AI-powered explanations, summaries, prioritization, and remediation suggestions.",
-              },
-              {
-                phase: "Phase 11",
-                title: "Docker",
-                description:
-                  "Create Dockerfiles, Docker Compose configuration, a local multi-service environment, and container security controls.",
-              },
-              {
-                phase: "Phase 12",
-                title: "CI/CD",
-                description:
-                  "Implement GitHub Actions CI, Docker image builds, GHCR publishing, deployment, and health checks.",
-              },
-              {
-                phase: "Phase 13",
-                title: "Testing & Evaluation",
-                description:
-                  "Perform functional, security, AI, performance, regression, and end-to-end testing.",
-              },
-              {
-                phase: "Phase 14",
-                title: "Deployment & Documentation",
-                description:
-                  "Complete production deployment, architecture documentation, setup documentation, and final project evaluation.",
-              },
-              {
-                phase: "Phase 15",
-                title: "Future CyberMind Extensions",
-                description:
-                  "Optionally add CVE intelligence, MITRE ATT&CK mapping, Nmap or Nessus imports, log analysis, SOC capabilities, automated reports, and advanced risk prediction.",
-              },
+              { phase: "Phase 1", title: "Project Setup, Monorepo Architecture & Modern UI Shell" },
+              { phase: "Phase 2", title: "Database Layer, Prisma Schema & Multi-Tenant Auth (Auth.js v5)" },
+              { phase: "Phase 3", title: "Repository & Webhook Integration Pipeline (GitHub & GitLab HMAC)" },
+              { phase: "Phase 4", title: "Asynchronous Analysis Queue & Sandboxed Analysis Worker (BullMQ)" },
+              { phase: "Phase 5", title: "Deterministic SAST Security Scanner & High-Entropy Secret Detection" },
+              { phase: "Phase 6", title: "Code Quality, Cyclomatic Complexity & AST Duplication Engine" },
+              { phase: "Phase 7", title: "Technical Debt Engine & Refactor-First Hotspot Visualizer" },
+              { phase: "Phase 8", title: "Repository Health Scoring Engine & Automated PR Reviews/Gates" },
+              { phase: "Phase 9", title: "Google Gemini AI Integration (Explanation & Auto-Patch Diff Generator)" },
+              { phase: "Phase 10", title: "Interactive DevSecOps Web Dashboard & Recharts Visualizations" },
+              { phase: "Phase 11", title: "Containerization & Docker Multi-Service Orchestration (Compose)" },
+              { phase: "Phase 12", title: "Automated CI/CD Pipelines (GitHub Actions & GHCR Publishing)" },
+              { phase: "Phase 13", title: "CyberMind Module A — CVE Intelligence Engine (NVD API & CVSS Calculator)" },
+              { phase: "Phase 14", title: "CyberMind Module B — MITRE ATT&CK Threat Mapping Engine" },
+              { phase: "Phase 15", title: "CyberMind Module C — Multi-Source Scan & Log Parsers (Nmap, Nessus, Syslog)" },
+              { phase: "Phase 16", title: "CyberMind Module D — Unified SOC Incident Workspace & Historical Archive" },
+              { phase: "Phase 17", title: "CyberMind Module E — Automated Audit-Ready PDF Security Report Generator" },
+              { phase: "Phase 18", title: "Enterprise Security Hardening, Rate Limiting & Platform Defense" },
+              { phase: "Phase 19", title: "Comprehensive Testing & Verification Strategy (Unit, Integration, Security)" },
+              { phase: "Phase 20", title: "Academic Research, Scientific Evaluation & 23-Chapter Thesis Guide" },
+              { phase: "Phase 21", title: "Production Cloud Deployment, Portfolio Showcase & Launch" },
             ].map((item) => (
               <div
                 key={item.phase}
-                className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"
+                className="flex items-center justify-between rounded-lg border border-slate-800 bg-slate-900/60 px-4 py-3"
               >
-                <div className="mb-1 text-sm font-semibold text-cyan-400">
+                <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400">
                   {item.phase}
-                </div>
-
-                <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
-
-                <p className="text-sm leading-6 text-slate-400">
-                  {item.description}
-                </p>
+                </span>
+                <span className="text-sm font-medium text-slate-200 text-right">
+                  {item.title}
+                </span>
               </div>
             ))}
           </div>
         </section>
-        {/* Docker & CI/CD */}
-        <section className="mb-10">
+
+        {/* 26. Docker & CI/CD */}
+        <section id="docker-cicd" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Docker & CI/CD
+            26. Docker &amp; CI/CD Pipelines
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            SecureReview AI will use containerization and continuous integration
-            practices to provide a consistent development, testing, and
-            deployment environment.
+            Containerization and continuous delivery ensure reproducible builds
+            and zero-downtime releases:
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Docker Containers",
+                title: "Multi-Stage Dockerfiles",
                 description:
-                  "Package the web application, API, analysis worker, database, and supporting services into reproducible containers.",
+                  "web.Dockerfile uses Node.js Alpine deps/builder/runner stages with non-root user (nextjs:1001). worker.Dockerfile includes Git & Python runtimes.",
               },
               {
-                title: "Docker Compose",
+                title: "Docker Compose Orchestration",
                 description:
-                  "Provide a local multi-service environment for development and integration testing.",
+                  "docker/compose.yml provisions postgres:16-alpine, redis:7-alpine, web (port 3000), and worker containers with persistent volumes.",
               },
               {
-                title: "Continuous Integration",
+                title: "GitHub Actions CI Pipeline",
                 description:
-                  "Automatically run linting, type checking, tests, security checks, and build validation when code changes are pushed.",
+                  "Runs on every PR to main/develop: linting (ESLint), type checking, unit tests, security audit (npm audit), and Docker image build dry-runs.",
               },
               {
-                title: "Container Builds",
+                title: "GHCR Publishing & CD",
                 description:
-                  "Build and publish versioned Docker images through the CI pipeline.",
-              },
-              {
-                title: "Deployment",
-                description:
-                  "Deploy validated application builds using container-based deployment workflows.",
-              },
-              {
-                title: "Health Checks",
-                description:
-                  "Verify that deployed services are running correctly through application and infrastructure health checks.",
+                  "On merge to main: tags images with Git commit SHA and 'latest', pushes to ghcr.io, executes prisma migrate deploy, and runs /api/health check.",
               },
             ].map((item) => (
               <div
@@ -1301,7 +1400,6 @@ export default function DocumentationPage() {
                 className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"
               >
                 <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
-
                 <p className="text-sm leading-6 text-slate-400">
                   {item.description}
                 </p>
@@ -1309,49 +1407,90 @@ export default function DocumentationPage() {
             ))}
           </div>
         </section>
-        {/* Security & Privacy Considerations */}
-        <section className="mb-10">
+
+        {/* 27. Environment Variables */}
+        <section id="environment-variables" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Security & Privacy Considerations
+            27. Master Environment Variables Reference
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            Because SecureReview AI processes source code and security-sensitive
-            information, security and privacy are considered throughout the
-            platform.
+            Required configuration across all services (all compatible with free tiers):
+          </p>
+
+          <div className="overflow-x-auto rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+            <pre className="text-sm leading-7 text-slate-300">
+              {`# --- APPLICATION CORE ---
+NODE_ENV="development"
+NEXT_PUBLIC_APP_URL="http://localhost:3000"
+NEXTAUTH_URL="http://localhost:3000"
+NEXTAUTH_SECRET="generate-with-openssl-rand-base64-32"
+
+# --- SUPABASE / POSTGRESQL (FREE TIER) ---
+DATABASE_URL="postgresql://postgres.[ref]:[pw]@...pooler.supabase.com:6543/postgres?pgbouncer=true"
+DIRECT_URL="postgresql://postgres.[ref]:[pw]@...pooler.supabase.com:5432/postgres"
+
+# --- REDIS (UPSTASH / LOCAL DOCKER) ---
+REDIS_URL="redis://localhost:6379"
+UPSTASH_REDIS_REST_URL="https://...upstash.io"
+UPSTASH_REDIS_REST_TOKEN="AXXX..."
+
+# --- GOOGLE GEMINI AI (GOOGLE AI STUDIO FREE TIER) ---
+GEMINI_API_KEY="AIzaSy..."
+GEMINI_MODEL="gemini-1.5-flash"
+
+# --- GITHUB OAUTH & WEBHOOK INTEGRATION ---
+GITHUB_ID="your_github_oauth_app_client_id"
+GITHUB_SECRET="your_github_oauth_app_client_secret"
+GITHUB_WEBHOOK_SECRET="your_shared_webhook_signing_secret"
+
+# --- NATIONAL VULNERABILITY DATABASE (OPTIONAL) ---
+NVD_API_KEY="" # Optional for higher rate limits
+
+# --- CONTAINER REGISTRY (CI/CD) ---
+DOCKER_REGISTRY="ghcr.io"
+IMAGE_NAME="your-username/secure-code-review-platform"`}
+            </pre>
+          </div>
+        </section>
+
+        {/* 28. Security & Privacy Considerations */}
+        <section id="security-privacy" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            28. Enterprise Security Hardening &amp; Platform Defense
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            Security controls applied to protect the platform itself from
+            untrusted repository input and malicious actors:
           </p>
 
           <div className="space-y-4">
             {[
               {
-                title: "Authentication & Authorization",
+                title: "Cryptographic Webhook Signature Verification",
                 description:
-                  "Protect platform resources using authentication, role-based access control, and tenant isolation.",
+                  "All webhook events require HMAC SHA-256 signatures validated using crypto.timingSafeEqual to prevent signature forging and replay attacks.",
               },
               {
-                title: "Repository Access",
+                title: "Sandboxed Worker Isolation",
                 description:
-                  "Use secure repository integrations and limited permissions when accessing source code.",
+                  "Workers run as unprivileged users (uid: 1001) in ephemeral directories (/tmp/scans/{id}) with hard execution timeouts (max 180s) and automatic cleanup.",
               },
               {
-                title: "Webhook Verification",
+                title: "Adversarial Prompt Injection Defense",
                 description:
-                  "Verify webhook signatures before accepting repository events.",
+                  "All user source code passed to Gemini is sanitized and enclosed in isolated XML boundaries (<code_to_analyze>) to neutralize prompt injection attacks.",
               },
               {
-                title: "Secret Protection",
+                title: "API Rate Limiting",
                 description:
-                  "Protect API keys, repository credentials, database credentials, and other sensitive configuration values.",
+                  "Enforced via @upstash/ratelimit token bucket algorithm: 100 req/min for public webhook APIs and 10 req/min for Gemini AI generation endpoints.",
               },
               {
-                title: "Isolated Analysis",
+                title: "Secure HTTP Headers & Secret Masking",
                 description:
-                  "Run source-code analysis in controlled worker environments to reduce the risk of executing untrusted repository content.",
-              },
-              {
-                title: "Data Protection",
-                description:
-                  "Limit stored source-code information and protect analysis results and repository-related data.",
+                  "Content Security Policy (CSP), HSTS, X-Frame-Options (DENY), nosniff headers, and zero logging of tokens, database passwords, or AI keys.",
               },
             ].map((item) => (
               <div
@@ -1359,7 +1498,6 @@ export default function DocumentationPage() {
                 className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"
               >
                 <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
-
                 <p className="text-sm leading-6 text-slate-400">
                   {item.description}
                 </p>
@@ -1367,49 +1505,48 @@ export default function DocumentationPage() {
             ))}
           </div>
         </section>
-        {/* Testing & Evaluation */}
-        <section className="mb-10">
+
+        {/* 29. Comprehensive Testing Strategy */}
+        <section id="testing" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Testing & Evaluation
+            29. Comprehensive Testing &amp; Verification Strategy
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            The platform will be evaluated at multiple levels to verify
-            functional correctness, security, reliability, and the usefulness of
-            its analysis results.
+            Multi-tier testing architecture verifying all application layers:
           </p>
 
           <div className="grid gap-4 sm:grid-cols-2">
             {[
               {
-                title: "Unit Testing",
+                title: "Unit Testing (Vitest / Jest)",
                 description:
-                  "Test individual services, analysis components, scoring functions, utilities, and data-processing logic.",
+                  "Testing Health Score calculation edge cases (0 score for 5 criticals, 100 for clean code), debt remediation formulas, and Nmap/Nessus XML parsers.",
               },
               {
                 title: "Integration Testing",
                 description:
-                  "Verify communication between the API, database, worker, analysis tools, and external services.",
+                  "Simulating GitHub PR webhooks, verifying database persistence, and running the analysis worker pipeline against mock vulnerable repositories.",
               },
               {
-                title: "End-to-End Testing",
+                title: "Security & Isolation Testing",
                 description:
-                  "Test complete workflows from repository submission through analysis and dashboard results.",
+                  "Tenant isolation verification (ensuring Org A gets HTTP 403 when requesting Org B resources) and HMAC signature forgery tests.",
               },
               {
-                title: "Security Testing",
+                title: "AI Output & Hallucination Testing",
                 description:
-                  "Test authentication, authorization, webhook validation, secret handling, and isolated analysis workflows.",
+                  "Evaluating 50 known vulnerable snippets through Gemini to verify AI never hallucinates vulnerabilities absent from deterministic inputs.",
               },
               {
-                title: "AI Evaluation",
+                title: "Performance Benchmarking",
                 description:
-                  "Evaluate AI-generated explanations and remediation guidance for relevance, consistency, and usefulness.",
+                  "Worker throughput benchmarks: 10,000 LOC repository PR analysis must execute under 30 seconds total elapsed time.",
               },
               {
-                title: "Performance Testing",
+                title: "End-to-End Workflow Testing",
                 description:
-                  "Measure analysis processing time, API response time, background-job behaviour, and system resource usage.",
+                  "Full PR lifecycle verification: PR open → webhook → BullMQ → scan → scoring → Gemini patch → GitHub comment & status check.",
               },
             ].map((item) => (
               <div
@@ -1417,7 +1554,6 @@ export default function DocumentationPage() {
                 className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"
               >
                 <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
-
                 <p className="text-sm leading-6 text-slate-400">
                   {item.description}
                 </p>
@@ -1425,54 +1561,107 @@ export default function DocumentationPage() {
             ))}
           </div>
         </section>
-        {/* Future Improvements */}
-        <section className="mb-10">
+
+        {/* 30. Academic Research & Thesis Guide */}
+        <section id="academic-thesis" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Future Improvements
+            30. Academic Research, Scientific Evaluation &amp; Thesis Guide
           </h2>
 
           <p className="mb-6 leading-8 text-slate-400">
-            After the core SecureReview AI platform is completed and validated,
-            additional CyberMind AI capabilities may be introduced as future
-            extensions.
+            For academic defense, the project incorporates formal scientific
+            evaluation metrics and a 23-chapter research dissertation blueprint:
+          </p>
+
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6 mb-4">
+            <h3 className="mb-2 font-semibold text-white">
+              Scientific Detection Benchmarking Formulas
+            </h3>
+            <p className="text-sm text-slate-400 mb-3">
+              Evaluated against OWASP Benchmark v1.2, DVWA, and OWASP Juice Shop:
+            </p>
+            <pre className="text-sm leading-7 text-cyan-400">
+              {`Precision = TP / (TP + FP)
+Recall    = TP / (TP + FN)
+F1 Score  = 2 × (Precision × Recall) / (Precision + Recall)`}
+            </pre>
+          </div>
+
+          <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-6">
+            <h3 className="mb-3 font-semibold text-white">
+              23-Chapter Academic Dissertation Structure
+            </h3>
+            <div className="grid gap-x-6 gap-y-1 text-xs text-slate-400 sm:grid-cols-2">
+              {[
+                "Ch 1: Introduction & Problem Domain",
+                "Ch 2: Background & Industry Context",
+                "Ch 3: Problem Statement & DevSecOps Pain Points",
+                "Ch 4: Research Gap in Code Review Tools",
+                "Ch 5: Aim and Specific Research Objectives",
+                "Ch 6: Literature Review (SAST, Debt, GenAI)",
+                "Ch 7: Comprehensive Requirements Analysis",
+                "Ch 8: System Architecture & Dual Pipelines",
+                "Ch 9: Relational Database Design & Schema",
+                "Ch 10: REST API & Webhook Ingestion Design",
+                "Ch 11: Security Architecture (STRIDE)",
+                "Ch 12: Deterministic Code Analysis Engine",
+                "Ch 13: Technical Debt Engine Implementation",
+                "Ch 14: Generative AI Component & Prompts",
+                "Ch 15: Full-Stack Implementation Details",
+                "Ch 16: Verification & Testing Methodology",
+                "Ch 17: Security Evaluation & Isolation Proofs",
+                "Ch 18: Performance & Scalability Benchmarking",
+                "Ch 19: Experimental Results & Benchmarks",
+                "Ch 20: Critical Discussion & Comparisons",
+                "Ch 21: Limitations & Known Constraints",
+                "Ch 22: Future Improvements & CyberMind SOC",
+                "Ch 23: Conclusion & Research Contributions",
+              ].map((chapter) => (
+                <div key={chapter} className="py-1">
+                  • {chapter}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* 31. Future Improvements (CyberMind SOC Extensions) */}
+        <section id="future-improvements" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            31. CyberMind Advanced SOC Workbench Extensions
+          </h2>
+
+          <p className="mb-6 leading-8 text-slate-400">
+            Modular value-add enhancements extending the core DevSecOps platform
+            into a full SOC threat intelligence workbench:
           </p>
 
           <div className="space-y-4">
             {[
               {
-                title: "CVE Intelligence",
+                title: "Module A: CVE Intelligence & CVSS Calculator (/cves)",
                 description:
-                  "Expand vulnerability intelligence using broader CVE information and vulnerability correlation.",
+                  "Live NVD REST API 2.0 vulnerability search, interactive CVSS v3.1/v4.0 vector calculator, 24-hour Redis caching, and Gemini AI plain-English threat explanations.",
               },
               {
-                title: "MITRE ATT&CK Mapping",
+                title: "Module B: MITRE ATT&CK Threat Mapping Engine",
                 description:
-                  "Map relevant security findings to MITRE ATT&CK techniques to provide additional security context.",
+                  "Automatic tagging of findings with ATT&CK techniques: T1190 (Exploit Public-Facing App) ← SQLi, T1059.004 (Unix Shell) ← Command Injection, T1110.001 (Password Guessing) ← SSH brute force, T1552.001 (Credentials in Files) ← Secrets, T1548.003 (Sudo Caching) ← Priv-Esc.",
               },
               {
-                title: "Security Tool Integration",
+                title: "Module C: Multi-Source Scan & Log Parsers (/scans)",
                 description:
-                  "Import and correlate results from tools such as Nmap and Nessus.",
+                  "Parsers for Nmap XML (open ports, services, OS fingerprints), Nessus v2 reports (plugin IDs, CVE references, host vulnerabilities), Linux Syslog/auth.log (SSH brute force detection, sudo abuse), and PCAP metadata flow summaries.",
               },
               {
-                title: "Log Analysis",
+                title: "Module D: Unified SOC Incident Workspace (/scans/history)",
                 description:
-                  "Analyze application and infrastructure logs to identify suspicious behaviour and operational issues.",
+                  "Correlates code-level findings with network port scans and auth logs into a unified incident timeline and searchable historical scan archive.",
               },
               {
-                title: "SOC Capabilities",
+                title: "Module E: Audit-Ready PDF Penetration Testing Reports",
                 description:
-                  "Extend the platform with security monitoring and security-operations-oriented workflows.",
-              },
-              {
-                title: "Automated Security Reports",
-                description:
-                  "Generate structured security and technical-debt reports for development and security teams.",
-              },
-              {
-                title: "Advanced Risk Prediction",
-                description:
-                  "Use historical findings and repository information to support more advanced risk analysis.",
+                  "One-click PDF generation via @react-pdf/renderer with executive summary, severity matrix, technical evidence, and prioritized remediation roadmap.",
               },
             ].map((item) => (
               <div
@@ -1480,7 +1669,6 @@ export default function DocumentationPage() {
                 className="rounded-xl border border-slate-800 bg-slate-900/60 p-5"
               >
                 <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
-
                 <p className="text-sm leading-6 text-slate-400">
                   {item.description}
                 </p>
@@ -1488,53 +1676,102 @@ export default function DocumentationPage() {
             ))}
           </div>
         </section>
-        {/* Project Scope */}
-        <section className="mb-10">
+
+        {/* 32. Project Scope */}
+        <section id="project-scope" className="mb-10">
           <h2 className="mb-4 text-2xl font-semibold text-white">
-            Project Scope
+            32. Project Scope: Core vs. Extension
           </h2>
 
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="rounded-xl border border-cyan-500/20 bg-cyan-500/5 p-5">
-              <h3 className="mb-3 font-semibold text-cyan-400">Core Scope</h3>
+              <h3 className="mb-3 font-semibold text-cyan-400">
+                Phase A: Core PID 4 System (Must Complete First)
+              </h3>
 
               <ul className="space-y-2 text-sm leading-6 text-slate-400">
-                <li>• Repository integration</li>
-                <li>• Automated code analysis</li>
-                <li>• Security analysis</li>
-                <li>• Dependency vulnerability analysis</li>
-                <li>• Technical debt analysis</li>
-                <li>• Finding normalization</li>
-                <li>• AI-assisted analysis</li>
-                <li>• Scoring and health metrics</li>
-                <li>• Quality gates</li>
-                <li>• Dashboard</li>
-                <li>• Docker and CI/CD</li>
-                <li>• Testing and evaluation</li>
+                <li>• Next.js 16 Full-Stack Monorepo Architecture</li>
+                <li>• Multi-Tenant Auth &amp; RBAC (Auth.js v5 + Supabase)</li>
+                <li>• GitHub/GitLab OAuth &amp; HMAC Verified Webhooks</li>
+                <li>• Asynchronous Analysis Queue (Redis BullMQ)</li>
+                <li>• Deterministic SAST &amp; Secret Detection</li>
+                <li>• Code Quality, Complexity &amp; Duplication Engine</li>
+                <li>• Technical Debt Quantification &amp; Refactor-First Queue</li>
+                <li>• Algorithmic Repository Health Scoring Engine</li>
+                <li>• Automated In-PR Review Comments &amp; Commit Status Checks</li>
+                <li>• Configurable Security &amp; Quality Gates (PASS/FAIL)</li>
+                <li>• Gemini AI Explanations &amp; Git Diff Patches</li>
+                <li>• Interactive Web Dashboard with Recharts Analytics</li>
               </ul>
             </div>
 
             <div className="rounded-xl border border-slate-800 bg-slate-900/60 p-5">
               <h3 className="mb-3 font-semibold text-white">
-                Optional Future Scope
+                Phase C: CyberMind SOC Extensions (Modular Enhancements)
               </h3>
 
               <ul className="space-y-2 text-sm leading-6 text-slate-400">
-                <li>• CVE intelligence</li>
-                <li>• MITRE ATT&CK mapping</li>
-                <li>• Nmap and Nessus integration</li>
-                <li>• Log analysis</li>
-                <li>• SOC capabilities</li>
-                <li>• Automated security reports</li>
-                <li>• Advanced risk prediction</li>
+                <li>• Live CVE Search &amp; NVD 2.0 REST API Integration</li>
+                <li>• Interactive CVSS v3.1 / v4.0 Calculator</li>
+                <li>• MITRE ATT&amp;CK Framework Mapping Engine</li>
+                <li>• Security Tool Cheatsheet &amp; Command Generator (/tools)</li>
+                <li>• Multi-Format Scan Parsers (Nmap XML, Nessus)</li>
+                <li>• Linux Syslog &amp; auth.log Anomaly Analyzer</li>
+                <li>• Network Packet / PCAP Flow Summary Parser (Lite)</li>
+                <li>• Unified SOC Incident Workspace &amp; Scan Archive</li>
+                <li>• Automated Audit-Ready PDF Pentest Report Generator</li>
+                <li>• ML PR Risk Predictor (Optional Research Component)</li>
               </ul>
             </div>
           </div>
+        </section>
 
-          <p className="mt-6 leading-8 text-slate-400">
-            The core scope will be implemented and evaluated before optional
-            CyberMind AI extensions are considered.
-          </p>
+        {/* 33. Out of Scope */}
+        <section id="out-of-scope" className="mb-10">
+          <h2 className="mb-4 text-2xl font-semibold text-white">
+            33. Explicitly Out-of-Scope (What NOT to Build)
+          </h2>
+
+          <div className="rounded-xl border border-red-500/20 bg-red-500/5 p-6">
+            <p className="mb-4 text-sm text-slate-400">
+              To guarantee academic defensibility, prevent scope creep, and ensure
+              100% on-time completion, the following features are intentionally{" "}
+              <strong className="text-red-400">excluded</strong>:
+            </p>
+
+            <ul className="space-y-3 text-sm text-slate-400">
+              <li>
+                <strong className="text-slate-200">
+                  • No Full Raw PCAP Packet Sniffer / Deep Packet Inspection:
+                </strong>{" "}
+                Only exported text/JSON metadata flow summaries are accepted.
+              </li>
+              <li>
+                <strong className="text-slate-200">
+                  • No Full Commercial SIEM Replacement:
+                </strong>{" "}
+                The platform correlates project-specific security findings, not petabytes of enterprise telemetry.
+              </li>
+              <li>
+                <strong className="text-slate-200">
+                  • No Autonomous Penetration Exploitation:
+                </strong>{" "}
+                The platform detects and remediates weaknesses; it never executes active payloads or exploits against targets.
+              </li>
+              <li>
+                <strong className="text-slate-200">
+                  • No Mandatory IDE / VS Code Extensions:
+                </strong>{" "}
+                All developer interactions occur through Git PR comments, webhooks, and the Web Dashboard.
+              </li>
+              <li>
+                <strong className="text-slate-200">
+                  • No Video Conferencing / Chat Rooms:
+                </strong>{" "}
+                Collaboration is strictly through code comments, PR gates, and the SOC workbench.
+              </li>
+            </ul>
+          </div>
         </section>
       </div>
     </main>
