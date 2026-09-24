@@ -7,7 +7,7 @@ export default function ReviewPage() {
   const [branch, setBranch] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!repository.trim() || !branch.trim()) {
@@ -34,6 +34,19 @@ export default function ReviewPage() {
     }
 
     setError("");
+
+    const response = await fetch("/api/reviews", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        repository,
+        branch,
+      }),
+    });
+
+    const data = await response.json();
   };
 
   return (
