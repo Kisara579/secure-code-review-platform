@@ -14,7 +14,7 @@ export default function Hero() {
 
       <div className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row">
         <Link
-          href="/"
+          href="/dashboard"
           className="rounded-full bg-cyan-500 px-8 sm:px-5 py-3 font-medium text-slate-950 hover:bg-cyan-400 "
         >
           Get Started

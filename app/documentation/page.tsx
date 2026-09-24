@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function DocumentationPage() {
   return (
     <main className="min-h-screen bg-slate-950 px-6 py-16 text-slate-100">
@@ -330,10 +332,12 @@ export default function DocumentationPage() {
           </h2>
 
           <div className="overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 p-4 sm:p-6">
-            <img
+            <Image
               src="/document/system-architecture.svg"
               alt="SecureReview AI system architecture"
               className="mx-auto w-full max-w-5xl"
+              width={32}
+              height={32}
             />
           </div>
 
