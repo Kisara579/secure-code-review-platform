@@ -6,7 +6,7 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen">
+    <div className="flex flex-col min-h-screen">
       <header className="border-b border-slate-800 px-6 py-4 flex items-center gap-3">
         <Image
           src="/logo.svg"
@@ -20,7 +20,7 @@ export default function DashboardLayout({
         </h1>
       </header>
 
-      <main>{children}</main>
+      <main className="flex-1">{children}</main>
     </div>
   );
 }
