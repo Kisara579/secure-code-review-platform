@@ -1,8 +1,10 @@
+import { prisma } from "@/lib/prisma";
+
 export async function POST(request: Request) {
   let body;
-  let provider:"github" | "gitlab";
-  let owner:string;
-  let repositoryName:string;
+  let provider: "github" | "gitlab";
+  let owner: string;
+  let repositoryName: string;
 
   try {
     body = await request.json();
@@ -93,14 +95,27 @@ export async function POST(request: Request) {
   const repositoryUrl = body.repository.trim();
   const branch = body.branch.trim();
 
-  return Response.json({
-    message: "Review request received",
+  const review = await prisma.review.create({
     data: {
       provider,
       owner,
       repositoryName,
       repositoryUrl,
       branch,
+      status: "QUEUED",
+    },
+  });
+
+  return Response.json({
+    message: "Review request received",
+    data: {
+      reviewId: review.id,
+      provider,
+      owner,
+      repositoryName,
+      repositoryUrl,
+      branch,
+      status: review.status,
     },
   });
 }
