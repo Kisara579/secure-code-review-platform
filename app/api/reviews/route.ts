@@ -5,6 +5,7 @@ export async function POST(request: Request) {
   let provider: "github" | "gitlab";
   let owner: string;
   let repositoryName: string;
+  let review;
 
   try {
     body = await request.json();
@@ -94,17 +95,27 @@ export async function POST(request: Request) {
 
   const repositoryUrl = body.repository.trim();
   const branch = body.branch.trim();
-
-  const review = await prisma.review.create({
-    data: {
-      provider,
-      owner,
-      repositoryName,
-      repositoryUrl,
-      branch,
-      status: "QUEUED",
-    },
-  });
+  try {
+     review = await prisma.review.create({
+      data: {
+        provider,
+        owner,
+        repositoryName,
+        repositoryUrl,
+        branch,
+        status: "QUEUED",
+      },
+    });
+  } catch {
+    return Response.json(
+      {
+        error: "Failed to create review in the database.",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
 
   return Response.json({
     message: "Review request received",
