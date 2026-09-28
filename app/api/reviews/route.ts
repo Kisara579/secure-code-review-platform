@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { reviewQueue } from "@/lib/queue";
 
 export async function POST(request: Request) {
   let body;
@@ -96,7 +97,7 @@ export async function POST(request: Request) {
   const repositoryUrl = body.repository.trim();
   const branch = body.branch.trim();
   try {
-     review = await prisma.review.create({
+    review = await prisma.review.create({
       data: {
         provider,
         owner,
@@ -113,7 +114,35 @@ export async function POST(request: Request) {
       },
       {
         status: 500,
-      }
+      },
+    );
+  }
+
+  try {
+    await reviewQueue.add("review", {
+      reviewId: review.id,
+    });
+  } catch {
+    try {
+      await prisma.review.update({
+        where: {
+          id: review.id,
+        },
+        data: {
+          status: "FAILED",
+        },
+      });
+    } catch {
+      // Database update failed; the original queue error is still the primary failure.
+    }
+
+    return Response.json(
+      {
+        error: "Failed to queue the review for processing.",
+      },
+      {
+        status: 500,
+      },
     );
   }
 
