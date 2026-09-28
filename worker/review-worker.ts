@@ -2,6 +2,8 @@ import { Worker } from "bullmq";
 import IORedis from "ioredis";
 import "dotenv/config";
 import { prisma } from "@/lib/prisma";
+import { cloneRepository } from "./git";
+import { createWorkspace, removeWorkspace } from "./workspace";
 
 const connection = new IORedis(process.env.REDIS_URL!, {
   maxRetriesPerRequest: null,
@@ -36,6 +38,17 @@ const worker = new Worker(
     });
 
     console.log(`Review ${job.data.reviewId} is now RUNNING`);
+
+    const workspace = await createWorkspace();
+
+    try {
+      console.log(`Workspace created: ${workspace}`);
+      await cloneRepository(review.repositoryUrl, review.branch, workspace);
+      console.log(`Repository cloned to: ${workspace}`);
+    } finally {
+      await removeWorkspace(workspace);
+      console.log(`Workspace removed: ${workspace}`);
+    }
 
     await prisma.review.update({
       where: {
