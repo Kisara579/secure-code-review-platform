@@ -25,41 +25,53 @@ const worker = new Worker(
       throw new Error(`Review ${job.data.reviewId} was not found.`);
     }
 
-    console.log(`Repository: ${review.repositoryUrl}`);
-    console.log(`Branch: ${review.branch}`);
-
-    await prisma.review.update({
-      where: {
-        id: job.data.reviewId,
-      },
-      data: {
-        status: "RUNNING",
-      },
-    });
-
-    console.log(`Review ${job.data.reviewId} is now RUNNING`);
-
-    const workspace = await createWorkspace();
-
     try {
-      console.log(`Workspace created: ${workspace}`);
-      await cloneRepository(review.repositoryUrl, review.branch, workspace);
-      console.log(`Repository cloned to: ${workspace}`);
-    } finally {
-      await removeWorkspace(workspace);
-      console.log(`Workspace removed: ${workspace}`);
+      await prisma.review.update({
+        where: {
+          id: job.data.reviewId,
+        },
+        data: {
+          status: "RUNNING",
+        },
+      });
+
+      console.log(`Review ${job.data.reviewId} is now RUNNING`);
+
+      const workspace = await createWorkspace();
+
+      try {
+        console.log(`Workspace created: ${workspace}`);
+        await cloneRepository(review.repositoryUrl, review.branch, workspace);
+        console.log(`Repository cloned to: ${workspace}`);
+      } finally {
+        await removeWorkspace(workspace);
+        console.log(`Workspace removed: ${workspace}`);
+      }
+
+      await prisma.review.update({
+        where: {
+          id: job.data.reviewId,
+        },
+        data: {
+          status: "COMPLETED",
+        },
+      });
+
+      console.log(`Review ${job.data.reviewId} is now COMPLETED`);
+    } catch (error) {
+      await prisma.review.update({
+        where: {
+          id: job.data.reviewId,
+        },
+        data: {
+          status: "FAILED",
+        },
+      });
+
+      console.error(`Review ${job.data.reviewId} failed:`, error);
+      throw error;
     }
 
-    await prisma.review.update({
-      where: {
-        id: job.data.reviewId,
-      },
-      data: {
-        status: "COMPLETED",
-      },
-    });
-
-    console.log(`Review ${job.data.reviewId} is now COMPLETED`);
     return {
       success: true,
     };

@@ -1,0 +1,7 @@
+rules:
+  - id: dangerous-eval
+    languages:
+      - javascript
+    pattern: eval(...)
+    message: Avoid using eval() because it can execute arbitrary code.
+    severity: ERROR
