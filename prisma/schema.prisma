@@ -14,12 +14,32 @@ enum ReviewStatus {
 }
 
 model Review {
-  id String @id @default(uuid())
-  provider String
-  owner String
+  id             String       @id @default(uuid()) 
+  provider       String
+  owner          String
   repositoryName String
-  repositoryUrl String
-  branch String
-  status ReviewStatus
-  createdAt DateTime @default(now())
+  repositoryUrl  String
+  branch         String
+  status         ReviewStatus @default(QUEUED)
+  createdAt      DateTime     @default(now())
+
+  findings       Finding[]
+}
+
+model Finding {
+  id         String   @id @default(uuid())
+  reviewId   String
+  source     String
+  ruleId     String?
+  severity   String
+  message    String
+  filePath   String?
+  startLine  Int?
+  endLine    Int?
+  details    Json?
+  createdAt  DateTime @default(now())
+
+  review     Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@index([reviewId])
 }
