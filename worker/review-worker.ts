@@ -4,6 +4,9 @@ import "dotenv/config";
 import { prisma } from "@/lib/prisma";
 import { cloneRepository } from "./git";
 import { createWorkspace, removeWorkspace } from "./workspace";
+import { runSemgrep } from "./semgrep";
+import { parseSemgrepResults } from "./semgrep-parser";
+import { replaceFindings } from "./findings";
 
 const connection = new IORedis(process.env.REDIS_URL!, {
   maxRetriesPerRequest: null,
@@ -41,8 +44,18 @@ const worker = new Worker(
 
       try {
         console.log(`Workspace created: ${workspace}`);
+
         await cloneRepository(review.repositoryUrl, review.branch, workspace);
         console.log(`Repository cloned to: ${workspace}`);
+
+        const semgrepOutput = await runSemgrep(workspace);
+        console.log("Semgrep scan completed");
+
+        const findings = parseSemgrepResults(semgrepOutput);
+        console.log(`Semgrep findings: ${findings.length}`);
+
+        await replaceFindings(review.id, findings);
+        console.log("Findings saved to database");
       } finally {
         await removeWorkspace(workspace);
         console.log(`Workspace removed: ${workspace}`);
