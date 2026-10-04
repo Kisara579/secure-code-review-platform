@@ -12,6 +12,7 @@ interface PackageLock {
 export interface NpmDependency {
   name: string;
   version: string;
+  lockfilePath: string;
 }
 
 export async function parsePackageLock(
@@ -45,10 +46,11 @@ export async function parsePackageLock(
     const marker = "node_modules/";
     const lastIndex = path.lastIndexOf(marker);
     const name = path.slice(lastIndex + marker.length);
-    
+
     dependencies.push({
       name,
       version: packageInfo.version,
+      lockfilePath,
     });
   }
 

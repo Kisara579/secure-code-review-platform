@@ -7,6 +7,9 @@ import { createWorkspace, removeWorkspace } from "./workspace";
 import { runSemgrep } from "./semgrep";
 import { parseSemgrepResults } from "./semgrep-parser";
 import { replaceFindings } from "./findings";
+import { parsePackageLock } from "./npm-lock-parser";
+import { findPackageLockFiles } from "./lockfile-discovery";
+import { scanOsvPackages } from "./osv";
 
 const connection = new IORedis(process.env.REDIS_URL!, {
   maxRetriesPerRequest: null,
@@ -48,11 +51,33 @@ const worker = new Worker(
         await cloneRepository(review.repositoryUrl, review.branch, workspace);
         console.log(`Repository cloned to: ${workspace}`);
 
+        const lockfiles = await findPackageLockFiles(workspace);
+        console.log(`Package lockfiles found: ${lockfiles.length}`);
+
+        const osvFindings = [];
+
+        for (const lockfilePath of lockfiles) {
+          console.log(`Processing lockfile: ${lockfilePath}`);
+          const dependencies = await parsePackageLock(lockfilePath);
+
+          console.log(
+            `NPM dependencies found in ${lockfilePath}: ${dependencies.length}`,
+          );
+
+          const lockfileFindings = await scanOsvPackages(dependencies);
+          osvFindings.push(...lockfileFindings);
+          console.log(
+            `OSV findings from ${lockfilePath}: ${lockfileFindings.length}`,
+          );
+        }
         const semgrepOutput = await runSemgrep(workspace);
         console.log("Semgrep scan completed");
 
-        const findings = parseSemgrepResults(semgrepOutput);
-        console.log(`Semgrep findings: ${findings.length}`);
+        const semgrepFindings = parseSemgrepResults(semgrepOutput);
+        console.log(`Semgrep findings: ${semgrepFindings.length}`);
+
+        const findings = [...osvFindings, ...semgrepFindings];
+        console.log(`Total findings: ${findings.length}`);
 
         await replaceFindings(review.id, findings);
         console.log("Findings saved to database");
