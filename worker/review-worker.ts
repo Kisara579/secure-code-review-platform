@@ -64,17 +64,29 @@ const worker = new Worker(
             `NPM dependencies found in ${lockfilePath}: ${dependencies.length}`,
           );
 
-          const lockfileFindings = await scanOsvPackages(dependencies);
-          osvFindings.push(...lockfileFindings);
-          console.log(
-            `OSV findings from ${lockfilePath}: ${lockfileFindings.length}`,
-          );
+          try {
+            const lockfileFindings = await scanOsvPackages(dependencies);
+            osvFindings.push(...lockfileFindings);
+            console.log(
+              `OSV findings from ${lockfilePath}: ${lockfileFindings.length}`,
+            );
+          } catch (error) {
+            console.error(`OSV scan failed for ${lockfilePath}:`, error);
+          }
         }
-        const semgrepOutput = await runSemgrep(workspace);
-        console.log("Semgrep scan completed");
+        const semgrepFindings = [];
 
-        const semgrepFindings = parseSemgrepResults(semgrepOutput);
-        console.log(`Semgrep findings: ${semgrepFindings.length}`);
+        try {
+          const semgrepOutput = await runSemgrep(workspace);
+          console.log("Semgrep scan completed");
+
+          const parsedFindings = parseSemgrepResults(semgrepOutput);
+          semgrepFindings.push(...parsedFindings);
+
+          console.log(`Semgrep findings: ${parsedFindings.length}`);
+        } catch (error) {
+          console.error("Semgrep scan failed:", error);
+        }
 
         const findings = [...osvFindings, ...semgrepFindings];
         console.log(`Total findings: ${findings.length}`);
