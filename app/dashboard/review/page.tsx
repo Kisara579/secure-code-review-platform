@@ -6,6 +6,7 @@ export default function ReviewPage() {
   const [repository, setRepository] = useState("");
   const [branch, setBranch] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -34,6 +35,7 @@ export default function ReviewPage() {
     }
 
     setError("");
+    setSuccess("");
 
     const response = await fetch("/api/reviews", {
       method: "POST",
@@ -47,6 +49,15 @@ export default function ReviewPage() {
     });
 
     const data = await response.json();
+
+    if (!response.ok) {
+      setError(data.error ?? "Failed to start review.");
+      return;
+    }
+
+    setRepository("");
+    setBranch("");
+    setSuccess("Review submitted successfully. Your scan is now queued.");
   };
 
   return (
@@ -98,6 +109,7 @@ export default function ReviewPage() {
           </div>
 
           {error && <p className="text-sm text-red-400">{error}</p>}
+          {success && <p className="text-sm text-green-400">{success}</p>}
 
           <button
             type="submit"
