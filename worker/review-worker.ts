@@ -56,25 +56,56 @@ const worker = new Worker(
 
         const osvFindings = [];
 
+        const osvRun = await prisma.scannerRun.create({
+          data: {
+            reviewId: review.id,
+            scanner: "OSV",
+            status: "RUNNING",
+          },
+        });
+
         for (const lockfilePath of lockfiles) {
           console.log(`Processing lockfile: ${lockfilePath}`);
-          const dependencies = await parsePackageLock(lockfilePath);
-
-          console.log(
-            `NPM dependencies found in ${lockfilePath}: ${dependencies.length}`,
-          );
 
           try {
+            const dependencies = await parsePackageLock(lockfilePath);
+
+            console.log(
+              `NPM dependencies found in ${lockfilePath}: ${dependencies.length}`,
+            );
+
             const lockfileFindings = await scanOsvPackages(dependencies);
+
             osvFindings.push(...lockfileFindings);
+
             console.log(
               `OSV findings from ${lockfilePath}: ${lockfileFindings.length}`,
             );
           } catch (error) {
-            console.error(`OSV scan failed for ${lockfilePath}:`, error);
+            console.error(`OSV processing failed for ${lockfilePath}:`, error);
           }
         }
+
+        await prisma.scannerRun.update({
+          where: {
+            id: osvRun.id,
+          },
+          data: {
+            status: "COMPLETED",
+          },
+        });
+
+        console.log("OSV scanner completed");
+
         const semgrepFindings = [];
+
+        const semgrepRun = await prisma.scannerRun.create({
+          data: {
+            reviewId: review.id,
+            scanner: "SEMGREP",
+            status: "RUNNING",
+          },
+        });
 
         try {
           const semgrepOutput = await runSemgrep(workspace);
@@ -84,7 +115,27 @@ const worker = new Worker(
           semgrepFindings.push(...parsedFindings);
 
           console.log(`Semgrep findings: ${parsedFindings.length}`);
+
+          await prisma.scannerRun.update({
+            where: {
+              id: semgrepRun.id,
+            },
+            data: {
+              status: "COMPLETED",
+            },
+          });
+
+          console.log("Semgrep scanner completed");
         } catch (error) {
+          await prisma.scannerRun.update({
+            where: {
+              id: semgrepRun.id,
+            },
+            data: {
+              status: "FAILED",
+            },
+          });
+
           console.error("Semgrep scan failed:", error);
         }
 

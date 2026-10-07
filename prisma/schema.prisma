@@ -7,6 +7,24 @@ datasource db {
   provider = "postgresql"
 }
 
+enum ReviewStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum ScannerStatus {
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum ScannerType {
+  OSV
+  SEMGREP
+}
+
 model Review {
   id             String       @id @default(uuid())
   provider       String
@@ -17,6 +35,7 @@ model Review {
   status         ReviewStatus @default(QUEUED)
   createdAt      DateTime     @default(now())
   findings       Finding[]
+  scannerRuns    ScannerRun[]
 }
 
 model Finding {
@@ -36,9 +55,10 @@ model Finding {
   @@index([reviewId])
 }
 
-enum ReviewStatus {
-  QUEUED
-  RUNNING
-  COMPLETED
-  FAILED
+model ScannerRun {
+  id       String        @id @default(uuid())
+  reviewId String
+  scanner  ScannerType
+  status   ScannerStatus
+  review   Review        @relation(fields: [reviewId], references: [id], onDelete: Cascade)
 }
