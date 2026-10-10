@@ -107,7 +107,12 @@ export async function POST(request: Request) {
         status: "QUEUED",
       },
     });
-  } catch {
+  } catch (error) {
+    console.error("Failed to create review:", {
+      name: error instanceof Error ? error.name : typeof error,
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
     return Response.json(
       {
         error: "Failed to create review in the database.",
