@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function ReviewPage() {
@@ -7,7 +8,9 @@ export default function ReviewPage() {
   const [branch, setBranch] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (!repository.trim() || !branch.trim()) {
@@ -34,11 +37,40 @@ export default function ReviewPage() {
     }
 
     setError("");
+
+    const response = await fetch("/api/reviews", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        repository,
+        branch,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setError(data.error ?? "Failed to start review.");
+      return;
+    }
+
+    setRepository("");
+    setBranch("");
+    router.push(`/dashboard/review/${data.data.reviewId}`);
   };
 
   return (
     <main className="px-6 py-10">
       <div className="mx-auto max-w-4xl">
+        <button
+          type="button"
+          onClick={() => router.push("/dashboard")}
+          className="mb-6 inline-flex items-center rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
+        >
+          ← Back
+        </button>
         <h1 className="text-3xl font-bold text-white">Start Code Review</h1>
 
         <p className="mt-2 text-slate-400">
@@ -85,7 +117,6 @@ export default function ReviewPage() {
           </div>
 
           {error && <p className="text-sm text-red-400">{error}</p>}
-
           <button
             type="submit"
             className="rounded-full bg-cyan-500 px-6 py-3 font-medium text-slate-950 transition hover:bg-cyan-400"

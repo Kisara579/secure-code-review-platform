@@ -1,0 +1,64 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ReviewStatus {
+  QUEUED
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum ScannerStatus {
+  RUNNING
+  COMPLETED
+  FAILED
+}
+
+enum ScannerType {
+  OSV
+  SEMGREP
+}
+
+model Review {
+  id             String       @id @default(uuid())
+  provider       String
+  owner          String
+  repositoryName String
+  repositoryUrl  String
+  branch         String
+  status         ReviewStatus @default(QUEUED)
+  createdAt      DateTime     @default(now())
+  findings       Finding[]
+  scannerRuns    ScannerRun[]
+}
+
+model Finding {
+  id        String   @id @default(uuid())
+  reviewId  String
+  source    String
+  ruleId    String?
+  severity  String
+  message   String
+  filePath  String?
+  startLine Int?
+  endLine   Int?
+  details   Json?
+  createdAt DateTime @default(now())
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@index([reviewId])
+}
+
+model ScannerRun {
+  id       String        @id @default(uuid())
+  reviewId String
+  scanner  ScannerType
+  status   ScannerStatus
+  review   Review        @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+}
