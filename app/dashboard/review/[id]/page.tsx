@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import NotFound from "@/components/NotFound";
+import LoadingAnimation from "@/components/LoadingAnimation";
+import FindingsSection from "./FindingsSection";
 import { use, useEffect, useState } from "react";
 
 type Finding = {
@@ -29,35 +31,51 @@ export default function ReviewResultPage({
   const [findings, setFindings] = useState<Finding[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let intervalId: ReturnType<typeof setInterval>;
+    let intervalId: ReturnType<typeof setInterval> | undefined;
 
     async function fetchReview() {
-      const response = await fetch(`/api/reviews/${id}`);
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/reviews/${id}`);
 
-      if (response.status === 404) {
-        setNotFound(true);
+        if (response.status === 404) {
+          setNotFound(true);
+          setIsLoading(false);
+          if (intervalId) {
+            clearInterval(intervalId);
+          }
+          return;
+        }
+
+        if (!response.ok) {
+          throw new Error(
+            `Unable to load review. Server returned ${response.status}.`,
+          );
+        }
+
+        const data = await response.json();
+        const reviewStatus = data.review.status;
+
+        setStatus(reviewStatus);
+        setFindings(data.review.findings ?? []);
+        setError(null);
         setIsLoading(false);
-        clearInterval(intervalId);
-        return;
-      }
 
-      if (!response.ok) {
+        if (reviewStatus === "COMPLETED" || reviewStatus === "FAILED") {
+          if (intervalId) {
+            clearInterval(intervalId);
+          }
+        }
+      } catch {
+        setError(
+          "Unable to load the review. Please check your connection and try again.",
+        );
         setIsLoading(false);
-        clearInterval(intervalId);
-        return;
-      }
-
-      const reviewStatus = data.review.status;
-
-      setStatus(reviewStatus);
-      setFindings(data.review.findings ?? []);
-      setIsLoading(false);
-
-      if (reviewStatus === "COMPLETED" || reviewStatus === "FAILED") {
-        clearInterval(intervalId);
+        if (intervalId) {
+          clearInterval(intervalId);
+        }
       }
     }
 
@@ -66,20 +84,43 @@ export default function ReviewResultPage({
     intervalId = setInterval(fetchReview, 2000);
 
     return () => {
-      clearInterval(intervalId);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     };
   }, [id]);
 
   if (isLoading) {
     return (
       <main className="flex min-h-screen items-center justify-center px-6">
-        <p className="text-slate-400">Checking review...</p>
+        <LoadingAnimation message="Checking review…" />
       </main>
     );
   }
 
   if (notFound) {
     return <NotFound />;
+  }
+
+  if (error) {
+    return (
+      <main className="flex min-h-screen items-center justify-center px-6">
+        <div className="max-w-md text-center">
+          <h1 className="text-2xl font-bold text-white">
+            Unable to Load Review
+          </h1>
+
+          <p className="mt-3 text-slate-400">{error}</p>
+
+          <button
+            onClick={() => window.location.reload()}
+            className="mt-6 rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
+          >
+            Try Again
+          </button>
+        </div>
+      </main>
+    );
   }
 
   return (
@@ -140,6 +181,7 @@ export default function ReviewResultPage({
             })}
           </div>
         </section>
+        <FindingsSection status={status} findings={findings} />
       </div>
     </main>
   );
