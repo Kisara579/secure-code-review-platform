@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type Finding = {
   id: string;
   source: string;
@@ -18,6 +20,9 @@ export default function FindingsSection({
   status,
   findings,
 }: FindingsSectionProps) {
+  const [selectedSeverity, setSelectedSeverity] = useState("ALL");
+  const [selectedScanner, setSelectedScanner] = useState("ALL");
+
   const severityCounts = {
     CRITICAL: findings.filter(
       (finding) => finding.severity.toUpperCase() === "CRITICAL",
@@ -33,6 +38,17 @@ export default function FindingsSection({
   };
 
   const totalFindings = findings.length;
+  const filteredFindings = findings.filter((finding) => {
+    const matchesSeverity =
+      selectedSeverity === "ALL" ||
+      finding.severity.toUpperCase() === selectedSeverity;
+
+    const matchesScanner =
+      selectedScanner === "ALL" ||
+      finding.source.toUpperCase() === selectedScanner;
+
+    return matchesSeverity && matchesScanner;
+  });
 
   return (
     <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-950 p-8">
@@ -74,13 +90,59 @@ export default function FindingsSection({
             ))}
           </div>
 
-          {findings.length === 0 ? (
+          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+              <label
+                htmlFor="severity-filter"
+                className="text-sm font-medium text-slate-300"
+              >
+                Severity
+              </label>
+
+              <select
+                id="severity-filter"
+                value={selectedSeverity}
+                onChange={(event) => setSelectedSeverity(event.target.value)}
+                className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+              >
+                <option value="ALL">All severities</option>
+                <option value="CRITICAL">Critical</option>
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+              </select>
+            </div>
+
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+              <label
+                htmlFor="scanner-filter"
+                className="text-sm font-medium text-slate-300"
+              >
+                Scanner
+              </label>
+
+              <select
+                id="scanner-filter"
+                value={selectedScanner}
+                onChange={(event) => setSelectedScanner(event.target.value)}
+                className="rounded-lg border border-slate-700 bg-slate-900 px-3 py-2 text-sm text-white"
+              >
+                <option value="ALL">All scanners</option>
+                <option value="OSV">OSV</option>
+                <option value="SEMGREP">Semgrep</option>
+              </select>
+            </div>
+          </div>
+
+          {filteredFindings.length === 0 ? (
             <p className="mt-4 text-slate-400">
-              No findings were reported by the scanners.
+              {findings.length === 0
+                ? "No findings were reported by the scanners."
+                : "No findings match the selected filters."}
             </p>
           ) : (
             <div className="mt-6 space-y-4">
-              {findings.map((finding) => (
+              {filteredFindings.map((finding) => (
                 <article
                   key={finding.id}
                   className="rounded-xl border border-slate-800 bg-slate-900 p-5"
