@@ -17,6 +17,12 @@ type Finding = {
   endLine: number | null;
 };
 
+type ScannerRun = {
+  id: string;
+  scanner: "OSV" | "SEMGREP";
+  status: "RUNNING" | "COMPLETED" | "FAILED";
+};
+
 export default function ReviewResultPage({
   params,
 }: {
@@ -29,6 +35,7 @@ export default function ReviewResultPage({
   >("QUEUED");
   const statuses = ["QUEUED", "RUNNING", "COMPLETED"] as const;
   const [findings, setFindings] = useState<Finding[]>([]);
+  const [scannerRuns, setScannerRuns] = useState<ScannerRun[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -60,6 +67,7 @@ export default function ReviewResultPage({
 
         setStatus(reviewStatus);
         setFindings(data.review.findings ?? []);
+        setScannerRuns(data.review.scannerRuns ?? []);
         setError(null);
         setIsLoading(false);
 
@@ -132,13 +140,10 @@ export default function ReviewResultPage({
         >
           ← Back
         </Link>
-
         <h1 className="text-3xl font-bold text-white">Review Result</h1>
-
         <p className="mt-2 text-slate-400">
           Track the progress of your security review.
         </p>
-
         <section className="mt-10 rounded-2xl border border-slate-800 bg-slate-950 p-8">
           <h2 className="text-xl font-semibold text-white">Review Pipeline</h2>
 
@@ -176,6 +181,49 @@ export default function ReviewResultPage({
                   {index < statuses.length - 1 && (
                     <div className="my-2 text-xl text-slate-600">↓</div>
                   )}
+                </div>
+              );
+            })}
+          </div>
+        </section>
+        <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-950 p-8">
+          <h2 className="text-xl font-semibold text-white">Scanner Status</h2>
+
+          <div className="mt-6 space-y-4">
+            {(["OSV", "SEMGREP"] as const).map((scanner) => {
+              const scannerRun = scannerRuns.find(
+                (run) => run.scanner === scanner,
+              );
+
+              const scannerStatus = scannerRun?.status ?? "PENDING";
+
+              const statusColor =
+                scannerStatus === "COMPLETED"
+                  ? "border-green-400 bg-green-500/10 text-green-300"
+                  : scannerStatus === "FAILED"
+                    ? "border-red-400 bg-red-500/10 text-red-300"
+                    : scannerStatus === "RUNNING"
+                      ? "border-cyan-400 bg-cyan-500/10 text-cyan-300"
+                      : "border-slate-700 bg-slate-900 text-slate-400";
+
+              return (
+                <div
+                  key={scanner}
+                  className="flex flex-col gap-3 rounded-xl border border-slate-800 p-4 sm:flex-row sm:items-center sm:justify-between"
+                >
+                  <div>
+                    <h3 className="font-medium text-white">
+                      {scanner === "OSV"
+                        ? "OSV — Dependency Vulnerability Scanner"
+                        : "Semgrep — Static Code Analysis"}
+                    </h3>
+                  </div>
+
+                  <span
+                    className={`inline-flex w-fit rounded-full border px-3 py-1 text-xs font-semibold ${statusColor}`}
+                  >
+                    {scannerStatus}
+                  </span>
                 </div>
               );
             })}

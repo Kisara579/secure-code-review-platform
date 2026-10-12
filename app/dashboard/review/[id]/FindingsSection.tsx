@@ -66,13 +66,14 @@ export default function FindingsSection({
         <p className="mt-4 text-slate-400">
           Findings will appear here when the security review finishes.
         </p>
-      ) : status === "FAILED" ? (
-        <p className="mt-4 text-slate-400">
-          The security review failed. Check the review status before
-          interpreting the findings.
-        </p>
       ) : (
         <>
+          {status === "FAILED" && (
+            <p className="mt-4 rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-300">
+              One or more scanners failed. The findings below may be incomplete.
+              Review the scanner statuses before interpreting the results.
+            </p>
+          )}
           <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
             {(
               [
