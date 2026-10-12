@@ -5,3 +5,35 @@ rules:
     pattern: eval(...)
     message: Avoid using eval() because it can execute arbitrary code.
     severity: ERROR
+
+  - id: dynamic-function
+    languages:
+      - javascript
+    pattern: new Function(...)
+    message: Avoid dynamically creating executable code with new Function() because it can lead to code injection.
+    severity: ERROR
+
+  - id: child-process-exec
+    languages:
+      - javascript
+    patterns:
+     - pattern: exec($CMD)
+     - pattern-not: exec("...")
+    message: Avoid passing dynamically constructed commands to exec() because this may cause command injection.
+    severity: ERROR
+  
+  - id: disabled-tls-verification
+    languages:
+      - javascript
+    pattern: rejectUnauthorized:false
+    message: Disabling TLS certificate verification can expose connections to man-in-the-middle attacks.
+    severity: WARNING
+
+  - id: weak-hash-md5
+    languages:
+      - javascript
+    pattern-either:
+      - pattern: crypto.createHash("md5")
+      - pattern: crypto.createHash('md5')
+    message: MD5 is unsuitable for security-sensitive hashing because it is vulnerable to collisions.
+    severity: WARNING
