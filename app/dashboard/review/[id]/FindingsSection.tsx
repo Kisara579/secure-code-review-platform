@@ -56,7 +56,9 @@ export default function FindingsSection({
         <h2 className="text-xl font-semibold text-white">Security Findings</h2>
 
         <span className="w-fit rounded-full border border-slate-700 bg-slate-900 px-3 py-1 text-sm text-slate-300">
-          {totalFindings} total
+          {filteredFindings.length === totalFindings
+            ? `${totalFindings} findings`
+            : `${filteredFindings.length} of ${totalFindings} findings`}
         </span>
       </div>
 
@@ -90,7 +92,7 @@ export default function FindingsSection({
             ))}
           </div>
 
-          <div className="mt-6 flex flex-col gap-4 sm:flex-row sm:items-center">
+          <div className="mt-6 flex flex-wrap items-end gap-4">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <label
                 htmlFor="severity-filter"
@@ -112,7 +114,6 @@ export default function FindingsSection({
                 <option value="LOW">Low</option>
               </select>
             </div>
-
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
               <label
                 htmlFor="scanner-filter"
@@ -132,6 +133,18 @@ export default function FindingsSection({
                 <option value="SEMGREP">Semgrep</option>
               </select>
             </div>
+            {(selectedSeverity !== "ALL" || selectedScanner !== "ALL") && (
+              <button
+                type="button"
+                onClick={() => {
+                  setSelectedSeverity("ALL");
+                  setSelectedScanner("ALL");
+                }}
+                className="rounded-lg border border-slate-700 px-3 py-2 text-sm text-slate-300 transition hover:bg-slate-800 hover:text-white"
+              >
+                Clear filters
+              </button>
+            )}
           </div>
 
           {filteredFindings.length === 0 ? (
