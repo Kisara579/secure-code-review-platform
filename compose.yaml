@@ -27,9 +27,7 @@ services:
       retries: 10
 
   migrate:
-    build:
-      context: .
-      dockerfile: worker.Dockerfile
+    image: ghcr.io/kisara579/secure-code-review-platform-worker:dev
     restart: "no"
     environment:
       DATABASE_URL: postgresql://secure_review_user:${POSTGRES_PASSWORD}@postgres:5432/secure_review
@@ -39,9 +37,7 @@ services:
         condition: service_healthy
 
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/kisara579/secure-code-review-platform-web:dev
     restart: unless-stopped
     environment:
       NODE_ENV: production
@@ -58,9 +54,7 @@ services:
         condition: service_completed_successfully
 
   worker:
-    build:
-      context: .
-      dockerfile: worker.Dockerfile
+    image: ghcr.io/kisara579/secure-code-review-platform-worker:dev
     restart: unless-stopped
     environment:
       NODE_ENV: production
