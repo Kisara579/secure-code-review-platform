@@ -27,7 +27,7 @@ services:
       retries: 10
 
   migrate:
-    image: ghcr.io/kisara579/secure-code-review-platform-worker:dev
+    image: ghcr.io/kisara579/secure-code-review-platform-worker:${IMAGE_TAG:-dev}
     restart: "no"
     environment:
       DATABASE_URL: postgresql://secure_review_user:${POSTGRES_PASSWORD}@postgres:5432/secure_review
@@ -37,7 +37,7 @@ services:
         condition: service_healthy
 
   web:
-    image: ghcr.io/kisara579/secure-code-review-platform-web:dev
+    image: ghcr.io/kisara579/secure-code-review-platform-web:${IMAGE_TAG:-dev}
     restart: unless-stopped
     environment:
       NODE_ENV: production
@@ -54,7 +54,7 @@ services:
         condition: service_completed_successfully
 
   worker:
-    image: ghcr.io/kisara579/secure-code-review-platform-worker:dev
+    image: ghcr.io/kisara579/secure-code-review-platform-worker:${IMAGE_TAG:-dev}
     restart: unless-stopped
     environment:
       NODE_ENV: production
