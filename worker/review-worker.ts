@@ -55,6 +55,7 @@ const worker = new Worker(
         console.log(`Package lockfiles found: ${lockfiles.length}`);
 
         const osvFindings = [];
+        let osvFailed = false;
 
         const osvRun = await prisma.scannerRun.create({
           data: {
@@ -82,22 +83,26 @@ const worker = new Worker(
               `OSV findings from ${lockfilePath}: ${lockfileFindings.length}`,
             );
           } catch (error) {
+            osvFailed = true;
             console.error(`OSV processing failed for ${lockfilePath}:`, error);
           }
         }
+
+        const osvStatus = osvFailed ? "FAILED" : "COMPLETED";
 
         await prisma.scannerRun.update({
           where: {
             id: osvRun.id,
           },
           data: {
-            status: "COMPLETED",
+            status: osvStatus,
           },
         });
 
-        console.log("OSV scanner completed");
+        console.log(`OSV scanner ${osvStatus}`);
 
         const semgrepFindings = [];
+        let semgrepFailed = false;
 
         const semgrepRun = await prisma.scannerRun.create({
           data: {
@@ -127,6 +132,7 @@ const worker = new Worker(
 
           console.log("Semgrep scanner completed");
         } catch (error) {
+          semgrepFailed = true;
           await prisma.scannerRun.update({
             where: {
               id: semgrepRun.id,
@@ -144,21 +150,24 @@ const worker = new Worker(
 
         await replaceFindings(review.id, findings);
         console.log("Findings saved to database");
+
+        const reviewStatus =
+          osvFailed || semgrepFailed ? "FAILED" : "COMPLETED";
+
+        await prisma.review.update({
+          where: {
+            id: job.data.reviewId,
+          },
+          data: {
+            status: reviewStatus,
+          },
+        });
+
+        console.log(`Review ${job.data.reviewId} is now ${reviewStatus}`);
       } finally {
         await removeWorkspace(workspace);
         console.log(`Workspace removed: ${workspace}`);
       }
-
-      await prisma.review.update({
-        where: {
-          id: job.data.reviewId,
-        },
-        data: {
-          status: "COMPLETED",
-        },
-      });
-
-      console.log(`Review ${job.data.reviewId} is now COMPLETED`);
     } catch (error) {
       await prisma.review.update({
         where: {
