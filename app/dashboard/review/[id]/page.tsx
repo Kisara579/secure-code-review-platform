@@ -41,8 +41,6 @@ export default function ReviewResultPage({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    let intervalId: ReturnType<typeof setInterval> | undefined;
-
     async function fetchReview() {
       try {
         const response = await fetch(`/api/reviews/${id}`);
@@ -87,9 +85,9 @@ export default function ReviewResultPage({
       }
     }
 
-    fetchReview();
+    const intervalId = setInterval(fetchReview, 2000);
 
-    intervalId = setInterval(fetchReview, 2000);
+    fetchReview();
 
     return () => {
       if (intervalId) {

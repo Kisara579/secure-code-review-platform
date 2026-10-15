@@ -1,7 +1,5 @@
-import type {
-  FindingSeverity,
-  NormalizedFinding,
-} from "./finding";
+import { relative, sep } from "node:path";
+import type { FindingSeverity, NormalizedFinding } from "./finding";
 
 interface SemgrepResult {
   check_id?: string;
@@ -38,8 +36,30 @@ function normalizeSeverity(severity?: string): FindingSeverity {
   }
 }
 
+function normalizeFilePath(
+  filePath: string | undefined,
+  workspace: string,
+): string | undefined {
+  if (!filePath) {
+    return undefined;
+  }
+
+  const normalizedPath = filePath.replace(/\\/g, "/");
+  const normalizedRoot = workspace.replace(/\\/g, "/").replace(/\/+$/, "");
+
+  if (
+    normalizedPath === normalizedRoot ||
+    normalizedPath.startsWith(`${normalizedRoot}/`)
+  ) {
+    return relative(workspace, filePath).split(sep).join("/");
+  }
+
+  return filePath;
+}
+
 export function parseSemgrepResults(
   output: unknown,
+  workspace: string,
 ): NormalizedFinding[] {
   const semgrepOutput = output as SemgrepOutput;
 
@@ -52,7 +72,7 @@ export function parseSemgrepResults(
     ruleId: result.check_id,
     severity: normalizeSeverity(result.extra?.severity),
     message: result.extra?.message ?? "Semgrep finding",
-    filePath: result.path,
+    filePath: normalizeFilePath(result.path, workspace),
     startLine: result.start?.line,
     endLine: result.end?.line,
   }));
