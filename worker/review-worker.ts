@@ -116,7 +116,7 @@ const worker = new Worker(
           const semgrepOutput = await runSemgrep(workspace);
           console.log("Semgrep scan completed");
 
-          const parsedFindings = parseSemgrepResults(semgrepOutput);
+          const parsedFindings = parseSemgrepResults(semgrepOutput, workspace);
           semgrepFindings.push(...parsedFindings);
 
           console.log(`Semgrep findings: ${parsedFindings.length}`);
