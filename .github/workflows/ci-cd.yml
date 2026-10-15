@@ -87,13 +87,15 @@ jobs:
               IMAGE_TAG=main docker compose --env-file .env.docker pull web worker migrate
               docker compose --env-file .env.docker up -d postgres redis
 
+              echo "=== Starting database migrations ==="
               IMAGE_TAG=main docker compose --env-file .env.docker run --rm migrate
+              echo "=== Migration command exited with code 0 ==="
 
-              echo "=== Migration completed; beginning application deployment ==="
+              echo "=== Beginning application deployment ==="
               IMAGE_TAG=main docker compose --env-file .env.docker up -d --no-deps --force-recreate web worker
+              echo "=== Application deployment command completed ==="
 
               echo "=== Application deployment command completed ==="
               IMAGE_TAG=main docker compose --env-file .env.docker ps
               echo "=== Deployment script finished ==="
-
           REMOTE
