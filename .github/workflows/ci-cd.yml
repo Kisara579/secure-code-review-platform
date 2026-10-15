@@ -86,6 +86,6 @@ jobs:
               IMAGE_TAG=main docker compose --env-file .env.docker pull web worker migrate
               docker compose --env-file .env.docker up -d postgres redis
               IMAGE_TAG=main docker compose --env-file .env.docker run --rm migrate
-              IMAGE_TAG=main docker compose --env-file .env.docker up -d --no-deps web worker
+              IMAGE_TAG=main docker compose --env-file .env.docker up -d --no-deps --force-recreate web worker
               IMAGE_TAG=main docker compose --env-file .env.docker ps
           REMOTE
