@@ -85,7 +85,9 @@ jobs:
               git pull --ff-only origin main
               IMAGE_TAG=main docker compose --env-file .env.docker pull web worker migrate
               docker compose --env-file .env.docker up -d postgres redis
-              IMAGE_TAG=main docker compose --env-file .env.docker run --rm migrate
+              echo "=== Migration completed; beginning application deployment ==="
               IMAGE_TAG=main docker compose --env-file .env.docker up -d --no-deps --force-recreate web worker
+              echo "=== Application deployment command completed ==="
               IMAGE_TAG=main docker compose --env-file .env.docker ps
+              echo "=== Deployment script finished ==="
           REMOTE
