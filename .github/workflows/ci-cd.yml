@@ -88,14 +88,23 @@ jobs:
               docker compose --env-file .env.docker up -d postgres redis
 
               echo "=== Starting database migrations ==="
+
+              set +e
               IMAGE_TAG=main docker compose --env-file .env.docker run --rm migrate
-              echo "=== Migration command exited with code 0 ==="
+              MIGRATION_EXIT_CODE=$?
+              set -e
+
+              echo "=== Migration exit code: $MIGRATION_EXIT_CODE ==="
+
+              if [ "$MIGRATION_EXIT_CODE" -ne 0 ]; then
+                echo "Database migration failed; stopping deployment."
+                exit "$MIGRATION_EXIT_CODE"
+              fi
 
               echo "=== Beginning application deployment ==="
               IMAGE_TAG=main docker compose --env-file .env.docker up -d --no-deps --force-recreate web worker
               echo "=== Application deployment command completed ==="
 
-              echo "=== Application deployment command completed ==="
               IMAGE_TAG=main docker compose --env-file .env.docker ps
               echo "=== Deployment script finished ==="
           REMOTE
