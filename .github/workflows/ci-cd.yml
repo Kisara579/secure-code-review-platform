@@ -41,6 +41,8 @@ jobs:
           file: Dockerfile
           push: true
           tags: ${{ env.IMAGE_PREFIX }}-web:main
+          build-args: |
+            NEXT_PUBLIC_BETTER_AUTH_URL=${{ vars.NEXT_PUBLIC_BETTER_AUTH_URL }}
 
       - name: Build and push worker image
         uses: docker/build-push-action@v6

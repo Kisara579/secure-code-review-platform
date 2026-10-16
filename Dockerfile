@@ -18,6 +18,10 @@ ENV DATABASE_URL="postgresql://build:build@localhost:5432/build"
 ENV REDIS_URL="redis://localhost:6379"
 
 RUN npx prisma generate
+
+ARG NEXT_PUBLIC_BETTER_AUTH_URL
+ENV NEXT_PUBLIC_BETTER_AUTH_URL=$NEXT_PUBLIC_BETTER_AUTH_URL
+
 RUN npm run build
 
 
