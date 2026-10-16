@@ -1,20 +1,26 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, BookOpen } from "lucide-react";
 
 export default function DocumentationPage() {
   return (
-    <main className="min-h-screen bg-slate-950 px-6 py-16 text-slate-100">
+    <main className="min-h-screen bg-slate-950 px-6 py-12 text-slate-100">
       <div className="mx-auto max-w-4xl">
-        {/* Header */}
-        <header className="mb-12 border-b border-slate-800 pb-8">
-          <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-cyan-400">
-            SecureReview AI
-          </p>
+        {/* Navigation & Header */}
+        <header className="mb-12 border-b border-slate-800/80 pb-8">
+          <Link
+            href="/"
+            className="group mb-6 inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-cyan-400"
+          >
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+            Back to Home
+          </Link>
 
-          <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
+          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl">
             Documentation
           </h1>
 
-          <p className="mt-5 max-w-3xl text-lg leading-8 text-slate-400">
+          <p className="mt-4 max-w-3xl text-base leading-relaxed text-slate-400 sm:text-lg">
             AI-Powered Automated Secure Code Review, Technical Debt Management,
             and SOC Threat Intelligence Platform for DevSecOps Teams
           </p>
