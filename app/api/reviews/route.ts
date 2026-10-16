@@ -1,7 +1,53 @@
 import { prisma } from "@/lib/prisma";
 import { reviewQueue } from "@/lib/queue";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
+
+export async function GET() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return Response.json(
+      { error: "Authentication required. Please sign in." },
+      { status: 401 },
+    );
+  }
+
+  const reviews = await prisma.review.findMany({
+    where: {
+      userId: session.user.id,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      _count: {
+        select: {
+          findings: true,
+        },
+      },
+    },
+  });
+
+  return Response.json({
+    reviews,
+  });
+}
 
 export async function POST(request: Request) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    return Response.json(
+      { error: "Authentication required. Please sign in." },
+      { status: 401 },
+    );
+  }
+
   let body;
   let provider: "github" | "gitlab";
   let owner: string;
@@ -105,6 +151,7 @@ export async function POST(request: Request) {
         repositoryUrl,
         branch,
         status: "QUEUED",
+        userId: session.user.id,
       },
     });
   } catch (error) {

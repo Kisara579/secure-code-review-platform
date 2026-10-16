@@ -1,10 +1,21 @@
 import Image from "next/image";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default function DashboardLayout({
+import { auth } from "@/lib/auth";
+
+export default async function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    redirect("/sign-in");
+  }
   return (
     <div className="flex flex-col min-h-screen">
       <header className="border-b border-slate-800 px-6 py-4 flex items-center gap-3">
