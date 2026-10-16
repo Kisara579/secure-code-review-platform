@@ -43,6 +43,9 @@ services:
       NODE_ENV: production
       DATABASE_URL: postgresql://secure_review_user:${POSTGRES_PASSWORD}@postgres:5432/secure_review
       REDIS_URL: redis://redis:6379
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?Set BETTER_AUTH_SECRET in your .env.docker file}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:?Set BETTER_AUTH_URL in your .env.docker file}
+      NEXT_PUBLIC_BETTER_AUTH_URL: ${NEXT_PUBLIC_BETTER_AUTH_URL:?Set NEXT_PUBLIC_BETTER_AUTH_URL in your .env.docker file}
     ports:
       - "3000:3000"
     depends_on:
