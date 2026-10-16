@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SearchX, ArrowRight } from "lucide-react";
 
 type NotFoundProps = {
   title?: string;
@@ -14,18 +15,28 @@ export default function NotFound({
   actionLabel = "Start a New Review",
 }: NotFoundProps) {
   return (
-    <main className="min-h-screen px-6 py-10">
-      <div className="mx-auto max-w-4xl">
-        <div className="rounded-2xl border border-slate-800 bg-slate-950 p-8 text-center">
-          <h1 className="text-2xl font-bold text-white">{title}</h1>
+    <main className="flex min-h-[75vh] items-center justify-center px-6 py-12">
+      <div className="w-full max-w-lg text-center">
+        <div className="relative mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl backdrop-blur-sm">
+          <div className="absolute inset-0 rounded-2xl bg-cyan-500/10 blur-xl" />
+          <SearchX className="relative h-10 w-10 text-cyan-400" />
+        </div>
 
-          <p className="mt-3 text-slate-400">{message}</p>
+        <h1 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          {title}
+        </h1>
 
+        <p className="mx-auto mt-3 max-w-md text-base leading-relaxed text-slate-400">
+          {message}
+        </p>
+
+        <div className="mt-8 flex justify-center">
           <Link
             href={actionHref}
-            className="mt-6 inline-flex items-center rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
+            className="group inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-cyan-500 to-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/30 hover:brightness-110"
           >
             {actionLabel}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
           </Link>
         </div>
       </div>

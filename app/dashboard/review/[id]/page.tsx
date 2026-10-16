@@ -5,6 +5,17 @@ import NotFound from "@/components/NotFound";
 import LoadingAnimation from "@/components/LoadingAnimation";
 import FindingsSection from "./FindingsSection";
 import { use, useEffect, useState } from "react";
+import {
+  ArrowLeft,
+  Clock,
+  Activity,
+  CheckCircle2,
+  XCircle,
+  Terminal,
+  ShieldAlert,
+  RefreshCw,
+  Layers,
+} from "lucide-react";
 
 type Finding = {
   id: string;
@@ -41,6 +52,8 @@ export default function ReviewResultPage({
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let intervalId: ReturnType<typeof setInterval> | null = null;
+
     async function fetchReview() {
       try {
         const response = await fetch(`/api/reviews/${id}`);
@@ -48,9 +61,7 @@ export default function ReviewResultPage({
         if (response.status === 404) {
           setNotFound(true);
           setIsLoading(false);
-          if (intervalId) {
-            clearInterval(intervalId);
-          }
+          if (intervalId) clearInterval(intervalId);
           return;
         }
 
@@ -70,36 +81,28 @@ export default function ReviewResultPage({
         setIsLoading(false);
 
         if (reviewStatus === "COMPLETED" || reviewStatus === "FAILED") {
-          if (intervalId) {
-            clearInterval(intervalId);
-          }
+          if (intervalId) clearInterval(intervalId);
         }
       } catch {
         setError(
           "Unable to load the review. Please check your connection and try again.",
         );
         setIsLoading(false);
-        if (intervalId) {
-          clearInterval(intervalId);
-        }
       }
     }
 
-    const intervalId = setInterval(fetchReview, 2000);
-
+    intervalId = setInterval(fetchReview, 2000);
     fetchReview();
 
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId);
-      }
+      if (intervalId) clearInterval(intervalId);
     };
   }, [id]);
 
   if (isLoading) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-6">
-        <LoadingAnimation message="Checking review…" />
+      <main className="flex min-h-[70vh] items-center justify-center px-6">
+        <LoadingAnimation message="Fetching review status & telemetry…" />
       </main>
     );
   }
@@ -110,18 +113,21 @@ export default function ReviewResultPage({
 
   if (error) {
     return (
-      <main className="flex min-h-screen items-center justify-center px-6">
-        <div className="max-w-md text-center">
-          <h1 className="text-2xl font-bold text-white">
+      <main className="flex min-h-[70vh] items-center justify-center px-6">
+        <div className="max-w-md rounded-2xl border border-red-500/20 bg-slate-900/60 p-8 text-center backdrop-blur-sm">
+          <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-red-500/10 text-red-400">
+            <ShieldAlert className="h-6 w-6" />
+          </div>
+          <h1 className="text-xl font-bold text-white">
             Unable to Load Review
           </h1>
-
-          <p className="mt-3 text-slate-400">{error}</p>
+          <p className="mt-2 text-sm text-slate-400">{error}</p>
 
           <button
             onClick={() => window.location.reload()}
-            className="mt-6 rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
+            className="mt-6 inline-flex items-center gap-2 rounded-xl bg-linear-to-r from-cyan-500 to-blue-500 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-cyan-500/20 transition-all hover:brightness-110"
           >
+            <RefreshCw className="h-4 w-4" />
             Try Again
           </button>
         </div>
@@ -129,96 +135,189 @@ export default function ReviewResultPage({
     );
   }
 
-  return (
-    <main className="px-6 py-10">
-      <div className="mx-auto max-w-4xl">
-        <Link
-          href="/dashboard/review"
-          className="mb-6 inline-flex items-center rounded-full border border-slate-700 bg-slate-900 px-4 py-2 text-sm font-medium text-slate-300 transition hover:border-cyan-400 hover:text-cyan-300"
-        >
-          ← Back
-        </Link>
-        <h1 className="text-3xl font-bold text-white">Review Result</h1>
-        <p className="mt-2 text-slate-400">
-          Track the progress of your security review.
-        </p>
-        <section className="mt-10 rounded-2xl border border-slate-800 bg-slate-950 p-8">
-          <h2 className="text-xl font-semibold text-white">Review Pipeline</h2>
+  const getStatusBadge = () => {
+    switch (status) {
+      case "COMPLETED":
+        return (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs font-semibold text-emerald-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            Completed
+          </span>
+        );
+      case "RUNNING":
+        return (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-cyan-500/30 bg-cyan-500/10 px-3 py-1 text-xs font-semibold text-cyan-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400 animate-ping" />
+            Running
+          </span>
+        );
+      case "FAILED":
+        return (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs font-semibold text-red-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-red-400" />
+            Failed
+          </span>
+        );
+      default:
+        return (
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold text-amber-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+            Queued
+          </span>
+        );
+    }
+  };
 
-          <div className="mt-8 flex flex-col items-center">
+  return (
+    <div className="px-6 py-10">
+      <div className="mx-auto max-w-5xl space-y-8">
+        {/* Navigation & Header */}
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <Link
+              href="/dashboard/review"
+              className="group mb-4 inline-flex items-center gap-2 text-sm text-slate-400 transition-colors hover:text-cyan-400"
+            >
+              <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-0.5" />
+              Back to Reviews
+            </Link>
+            <div className="flex flex-wrap items-center gap-3">
+              <h1 className="text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                Review Result
+              </h1>
+              {getStatusBadge()}
+            </div>
+            <p className="mt-1 font-mono text-xs text-slate-500">ID: {id}</p>
+          </div>
+        </div>
+
+        {/* Pipeline Stepper */}
+        <section className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-6 sm:p-8 backdrop-blur-sm">
+          <div className="flex items-center gap-2 mb-6">
+            <Layers className="h-5 w-5 text-cyan-400" />
+            <h2 className="text-lg font-semibold text-white">
+              Review Pipeline
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             {statuses.map((step, index) => {
               const displayStep =
                 step === "COMPLETED" && status === "FAILED" ? "FAILED" : step;
 
-              const isActive =
+              const isCurrent =
                 step === status ||
                 (step === "COMPLETED" && status === "FAILED");
 
-              const isCompleted =
+              const isFinished =
                 status !== "FAILED" &&
                 statuses.indexOf(step) < statuses.indexOf(status);
 
+              const getStepIcon = () => {
+                if (displayStep === "FAILED") {
+                  return <XCircle className="h-5 w-5 text-red-400" />;
+                }
+                if (
+                  isFinished ||
+                  (step === "COMPLETED" && status === "COMPLETED")
+                ) {
+                  return <CheckCircle2 className="h-5 w-5 text-emerald-400" />;
+                }
+                if (isCurrent && status === "RUNNING") {
+                  return (
+                    <Activity className="h-5 w-5 text-cyan-400 animate-pulse" />
+                  );
+                }
+                return <Clock className="h-5 w-5 text-slate-500" />;
+              };
+
               return (
-                <div key={step} className="flex flex-col items-center">
+                <div
+                  key={step}
+                  className={`relative flex items-center gap-4 rounded-xl border p-4 transition-all ${
+                    displayStep === "FAILED"
+                      ? "border-red-500/40 bg-red-500/10 text-red-300"
+                      : isFinished ||
+                          (step === "COMPLETED" && status === "COMPLETED")
+                        ? "border-emerald-500/30 bg-emerald-500/5 text-emerald-300"
+                        : isCurrent
+                          ? "border-cyan-500/40 bg-cyan-500/10 text-cyan-200 shadow-lg shadow-cyan-500/10"
+                          : "border-slate-800 bg-slate-950/50 text-slate-500"
+                  }`}
+                >
                   <div
-                    className={`flex h-16 w-56 items-center justify-center rounded-full border text-sm font-semibold ${
-                      status === "FAILED" && isActive
-                        ? "border-red-400 bg-red-500/20 text-red-300"
-                        : status === "COMPLETED" && step === "COMPLETED"
-                          ? "border-green-400 bg-green-500/20 text-green-300"
-                          : isActive
-                            ? "border-cyan-400 bg-cyan-500/20 text-cyan-300"
-                            : isCompleted
-                              ? "border-green-400 bg-green-500/20 text-green-300"
-                              : "border-slate-700 bg-slate-900 text-slate-500"
+                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${
+                      displayStep === "FAILED"
+                        ? "bg-red-500/20"
+                        : isFinished ||
+                            (step === "COMPLETED" && status === "COMPLETED")
+                          ? "bg-emerald-500/20"
+                          : isCurrent
+                            ? "bg-cyan-500/20"
+                            : "bg-slate-800"
                     }`}
                   >
-                    {displayStep}
+                    {getStepIcon()}
                   </div>
-
-                  {index < statuses.length - 1 && (
-                    <div className="my-2 text-xl text-slate-600">↓</div>
-                  )}
+                  <div>
+                    <span className="text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                      Step 0{index + 1}
+                    </span>
+                    <p className="font-semibold">{displayStep}</p>
+                  </div>
                 </div>
               );
             })}
           </div>
         </section>
-        <section className="mt-8 rounded-2xl border border-slate-800 bg-slate-950 p-8">
-          <h2 className="text-xl font-semibold text-white">Scanner Status</h2>
 
-          <div className="mt-6 space-y-4">
+        {/* Scanner Runs */}
+        <section className="rounded-2xl border border-slate-800/80 bg-slate-900/50 p-6 sm:p-8 backdrop-blur-sm">
+          <div className="flex items-center gap-2 mb-6">
+            <Terminal className="h-5 w-5 text-cyan-400" />
+            <h2 className="text-lg font-semibold text-white">
+              Scanner Engine Status
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {(["OSV", "SEMGREP"] as const).map((scanner) => {
               const scannerRun = scannerRuns.find(
                 (run) => run.scanner === scanner,
               );
-
               const scannerStatus = scannerRun?.status ?? "PENDING";
 
-              const statusColor =
-                scannerStatus === "COMPLETED"
-                  ? "border-green-400 bg-green-500/10 text-green-300"
-                  : scannerStatus === "FAILED"
-                    ? "border-red-400 bg-red-500/10 text-red-300"
-                    : scannerStatus === "RUNNING"
-                      ? "border-cyan-400 bg-cyan-500/10 text-cyan-300"
-                      : "border-slate-700 bg-slate-900 text-slate-400";
+              const getStatusBadgeClass = () => {
+                switch (scannerStatus) {
+                  case "COMPLETED":
+                    return "border-emerald-500/30 bg-emerald-500/10 text-emerald-400";
+                  case "FAILED":
+                    return "border-red-500/30 bg-red-500/10 text-red-400";
+                  case "RUNNING":
+                    return "border-cyan-500/30 bg-cyan-500/10 text-cyan-400 animate-pulse";
+                  default:
+                    return "border-slate-700 bg-slate-800/60 text-slate-400";
+                }
+              };
 
               return (
                 <div
                   key={scanner}
-                  className="flex flex-col gap-3 rounded-xl border border-slate-800 p-4 sm:flex-row sm:items-center sm:justify-between"
+                  className="flex items-center justify-between rounded-xl border border-slate-800/80 bg-slate-950/60 p-5 transition hover:border-slate-700"
                 >
-                  <div>
-                    <h3 className="font-medium text-white">
-                      {scanner === "OSV"
-                        ? "OSV — Dependency Vulnerability Scanner"
-                        : "Semgrep — Static Code Analysis"}
+                  <div className="space-y-1">
+                    <h3 className="font-semibold text-white">
+                      {scanner === "OSV" ? "OSV Scanner" : "Semgrep SAST"}
                     </h3>
+                    <p className="text-xs text-slate-400">
+                      {scanner === "OSV"
+                        ? "Open Source Vulnerabilities (Dependencies)"
+                        : "Semantic static code vulnerability analysis"}
+                    </p>
                   </div>
 
                   <span
-                    className={`inline-flex w-fit rounded-full border px-3 py-1 text-xs font-semibold ${statusColor}`}
+                    className={`inline-flex shrink-0 items-center rounded-full border px-3 py-1 text-xs font-semibold ${getStatusBadgeClass()}`}
                   >
                     {scannerStatus}
                   </span>
@@ -227,8 +326,10 @@ export default function ReviewResultPage({
             })}
           </div>
         </section>
+
+        {/* Findings section */}
         <FindingsSection status={status} findings={findings} />
       </div>
-    </main>
+    </div>
   );
 }
