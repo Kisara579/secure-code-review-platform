@@ -42,7 +42,7 @@ export function verifyGitRepositoryAndBranch(
   timeoutMs = 15000,
 ): Promise<VerificationResult> {
   return new Promise((resolve) => {
-    let cleanUrl = repositoryUrl.trim().replace(/\/+$/, "");
+    const cleanUrl = repositoryUrl.trim().replace(/\/+$/, "");
     const cleanBranch = branch.trim().replace(/^refs\/heads\//, "");
 
     if (!cleanUrl || !cleanBranch) {
@@ -55,7 +55,10 @@ export function verifyGitRepositoryAndBranch(
 
     try {
       const parsed = new URL(cleanUrl);
-      if (parsed.hostname !== "github.com" && parsed.hostname !== "gitlab.com") {
+      if (
+        parsed.hostname !== "github.com" &&
+        parsed.hostname !== "gitlab.com"
+      ) {
         return resolve({
           valid: false,
           error: "Only GitHub and GitLab repositories are supported.",
@@ -66,7 +69,8 @@ export function verifyGitRepositoryAndBranch(
       if (parts.length !== 2) {
         return resolve({
           valid: false,
-          error: "Please enter a valid repository URL (e.g. https://github.com/owner/repo).",
+          error:
+            "Please enter a valid repository URL (e.g. https://github.com/owner/repo).",
           reason: "INVALID_URL",
         });
       }
@@ -97,7 +101,6 @@ export function verifyGitRepositoryAndBranch(
 
     let finished = false;
     let stdout = "";
-    let stderr = "";
 
     const proc = spawn("git", args, { env });
 
@@ -111,7 +114,8 @@ export function verifyGitRepositoryAndBranch(
         }
         resolve({
           valid: false,
-          error: "Connection timed out while verifying repository. Please try again.",
+          error:
+            "Connection timed out while verifying repository. Please try again.",
           reason: "TIMEOUT",
         });
       }
@@ -119,10 +123,6 @@ export function verifyGitRepositoryAndBranch(
 
     proc.stdout.on("data", (data) => {
       stdout += data.toString();
-    });
-
-    proc.stderr.on("data", (data) => {
-      stderr += data.toString();
     });
 
     proc.on("error", (error) => {
@@ -151,7 +151,10 @@ export function verifyGitRepositoryAndBranch(
       }
 
       // Check if the specific branch ref was returned
-      const lines = stdout.split("\n").map((line) => line.trim()).filter(Boolean);
+      const lines = stdout
+        .split("\n")
+        .map((line) => line.trim())
+        .filter(Boolean);
       const branchFound = lines.some((line) => {
         const parts = line.split(/\s+/);
         return parts.length >= 2 && parts[1] === `refs/heads/${cleanBranch}`;
