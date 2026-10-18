@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { reviewQueue } from "@/lib/queue";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
+import { verifyGitRepositoryAndBranch } from "@/lib/git-verify";
 
 export async function GET() {
   const session = await auth.api.getSession({
@@ -142,6 +143,24 @@ export async function POST(request: Request) {
 
   const repositoryUrl = body.repository.trim();
   const branch = body.branch.trim();
+
+  const verification = await verifyGitRepositoryAndBranch(
+    repositoryUrl,
+    branch,
+  );
+
+  if (!verification.valid) {
+    return Response.json(
+      {
+        error: verification.error,
+        reason: verification.reason,
+      },
+      {
+        status: 400,
+      },
+    );
+  }
+
   try {
     review = await prisma.review.create({
       data: {

@@ -9,6 +9,9 @@ export default function ReviewPage() {
   const [repository, setRepository] = useState("");
   const [branch, setBranch] = useState("");
   const [error, setError] = useState("");
+  const [errorField, setErrorField] = useState<"repository" | "branch" | null>(
+    null,
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const router = useRouter();
@@ -16,30 +19,47 @@ export default function ReviewPage() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (!repository.trim() || !branch.trim()) {
+    if (!repository.trim() && !branch.trim()) {
       setError("Please enter both repository URL and branch.");
+      setErrorField("repository");
+      return;
+    }
+
+    if (!repository.trim()) {
+      setError("Please enter a repository URL.");
+      setErrorField("repository");
+      return;
+    }
+
+    if (!branch.trim()) {
+      setError("Please enter a branch name.");
+      setErrorField("branch");
       return;
     }
 
     try {
-      const url = new URL(repository);
+      const url = new URL(repository.trim());
       const pathParts = url.pathname.split("/").filter(Boolean);
 
       if (url.hostname !== "github.com" && url.hostname !== "gitlab.com") {
         setError("Please enter a GitHub or GitLab repository URL.");
+        setErrorField("repository");
         return;
       }
 
       if (pathParts.length !== 2) {
-        setError("Please enter a valid repository URL.");
+        setError("Please enter a valid repository URL (e.g. https://github.com/owner/repo).");
+        setErrorField("repository");
         return;
       }
     } catch {
-      setError("Please enter a valid repository URL.");
+      setError("Please enter a valid repository URL (e.g. https://github.com/owner/repo).");
+      setErrorField("repository");
       return;
     }
 
     setError("");
+    setErrorField(null);
     setIsSubmitting(true);
 
     try {
@@ -49,8 +69,8 @@ export default function ReviewPage() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          repository,
-          branch,
+          repository: repository.trim(),
+          branch: branch.trim(),
         }),
       });
 
@@ -58,6 +78,13 @@ export default function ReviewPage() {
 
       if (!response.ok) {
         setError(data.error ?? "Failed to start review.");
+        if (data.reason === "REPO_NOT_FOUND") {
+          setErrorField("repository");
+        } else if (data.reason === "BRANCH_NOT_FOUND") {
+          setErrorField("branch");
+        } else {
+          setErrorField(null);
+        }
         setIsSubmitting(false);
         return;
       }
@@ -65,10 +92,12 @@ export default function ReviewPage() {
       const newReviewId = data.data.reviewId;
       setRepository("");
       setBranch("");
+      setErrorField(null);
 
       router.push(`/dashboard/review/${newReviewId}`);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("Something went wrong while verifying. Please check your network and try again.");
+      setErrorField(null);
       setIsSubmitting(false);
     }
   };
@@ -77,7 +106,7 @@ export default function ReviewPage() {
     <>
       {isSubmitting && (
         <LoadingAnimation
-          message="Submitting review… Please wait."
+          message="Verifying repository and branch… Please wait."
           fullScreen
         />
       )}
@@ -115,9 +144,19 @@ export default function ReviewPage() {
                     type="url"
                     placeholder="https://github.com/username/repository"
                     value={repository}
-                    onChange={(event) => setRepository(event.target.value)}
+                    onChange={(event) => {
+                      setRepository(event.target.value);
+                      if (errorField === "repository") {
+                        setErrorField(null);
+                        setError("");
+                      }
+                    }}
                     disabled={isSubmitting}
-                    className="w-full rounded-xl border border-slate-700/80 bg-slate-950/80 py-3 pl-10 pr-4 text-white outline-none transition-all placeholder:text-slate-600 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 disabled:opacity-50"
+                    className={`w-full rounded-xl border bg-slate-950/80 py-3 pl-10 pr-4 text-white outline-none transition-all placeholder:text-slate-600 disabled:opacity-50 ${
+                      errorField === "repository"
+                        ? "border-red-500/80 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+                        : "border-slate-700/80 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20"
+                    }`}
                   />
                 </div>
               </div>
@@ -137,9 +176,19 @@ export default function ReviewPage() {
                     type="text"
                     placeholder="main"
                     value={branch}
-                    onChange={(event) => setBranch(event.target.value)}
+                    onChange={(event) => {
+                      setBranch(event.target.value);
+                      if (errorField === "branch") {
+                        setErrorField(null);
+                        setError("");
+                      }
+                    }}
                     disabled={isSubmitting}
-                    className="w-full rounded-xl border border-slate-700/80 bg-slate-950/80 py-3 pl-10 pr-4 text-white outline-none transition-all placeholder:text-slate-600 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20 disabled:opacity-50"
+                    className={`w-full rounded-xl border bg-slate-950/80 py-3 pl-10 pr-4 text-white outline-none transition-all placeholder:text-slate-600 disabled:opacity-50 ${
+                      errorField === "branch"
+                        ? "border-red-500/80 focus:border-red-500 focus:ring-2 focus:ring-red-500/20"
+                        : "border-slate-700/80 focus:border-cyan-500/50 focus:ring-2 focus:ring-cyan-500/20"
+                    }`}
                   />
                 </div>
               </div>
@@ -180,7 +229,7 @@ export default function ReviewPage() {
                         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
                       />
                     </svg>
-                    Submitting…
+                    Verifying & Starting…
                   </span>
                 ) : (
                   "Start Review"
