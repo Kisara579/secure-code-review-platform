@@ -10,6 +10,7 @@ import {
   History,
   ShieldAlert,
   RefreshCw,
+  Trash2,
 } from "lucide-react";
 
 type Review = {
@@ -30,6 +31,41 @@ export default function ReviewHistoryPage() {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState("");
+  const [reviewToDelete, setReviewToDelete] = useState<Review | null>(null);
+
+  async function handleDeleteReview(review: Review) {
+    setDeletingId(review.id);
+    setDeleteError("");
+
+    try {
+      const response = await fetch(`/api/reviews/${review.id}`, {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error ?? "Unable to delete this review.");
+      }
+
+      setReviews((currentReviews) =>
+        currentReviews.filter((item) => item.id !== review.id),
+      );
+
+      setReviewToDelete(null);
+      setDeleteError("");
+    } catch (error) {
+      setDeleteError(
+        error instanceof Error
+          ? error.message
+          : "Unable to delete this review. Please try again.",
+      );
+    } finally {
+      setDeletingId(null);
+    }
+  }
 
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
@@ -125,6 +161,15 @@ export default function ReviewHistoryPage() {
           </Link>
         </div>
 
+        {deleteError && (
+          <div
+            role="alert"
+            className="mt-6 rounded-xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-300"
+          >
+            {deleteError}
+          </div>
+        )}
+
         {isLoading ? (
           <div className="mt-10 rounded-2xl border border-slate-800 bg-slate-900/50 p-12 text-center text-slate-400">
             <Clock className="mx-auto mb-3 h-7 w-7 animate-pulse text-cyan-400" />
@@ -216,6 +261,26 @@ export default function ReviewHistoryPage() {
                     >
                       View Results
                     </Link>
+
+                    <button
+                      type="button"
+                      onClick={() => setReviewToDelete(review)}
+                      disabled={
+                        (review.status !== "COMPLETED" &&
+                          review.status !== "FAILED") ||
+                        deletingId !== null
+                      }
+                      title={
+                        review.status === "QUEUED" ||
+                        review.status === "RUNNING"
+                          ? "Wait until the review finishes before deleting it."
+                          : "Delete this review"
+                      }
+                      className="inline-flex items-center justify-center gap-2 rounded-lg border border-red-500/30 px-4 py-2.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/10 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                      {deletingId === review.id ? "Deleting..." : "Delete"}
+                    </button>
                   </div>
                 </div>
               </article>
@@ -223,6 +288,79 @@ export default function ReviewHistoryPage() {
           </div>
         )}
       </div>
+
+      {reviewToDelete && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
+          onClick={() => {
+            if (deletingId === null) setReviewToDelete(null);
+          }}
+        >
+          <section
+            role="alertdialog"
+            aria-modal="true"
+            aria-labelledby="delete-review-title"
+            aria-describedby="delete-review-description"
+            className="w-full max-w-md rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl shadow-black/40"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-red-500/30 bg-red-500/10">
+              <Trash2 className="h-6 w-6 text-red-400" />
+            </div>
+
+            <h2
+              id="delete-review-title"
+              className="text-xl font-semibold text-white"
+            >
+              Delete review?
+            </h2>
+
+            <p
+              id="delete-review-description"
+              className="mt-3 text-sm leading-6 text-slate-400"
+            >
+              Are you sure you want to delete{" "}
+              <span className="font-medium text-white">
+                {reviewToDelete.owner}/{reviewToDelete.repositoryName}
+              </span>
+              ? This will permanently remove the review and its associated
+              findings and scanner-run records.
+            </p>
+
+            {deleteError && (
+              <p role="alert" className="mt-4 text-sm text-red-300">
+                {deleteError}
+              </p>
+            )}
+
+            <div className="mt-7 flex justify-end gap-3">
+              <button
+                type="button"
+                disabled={deletingId !== null}
+                onClick={() => {
+                  setReviewToDelete(null);
+                  setDeleteError("");
+                }}
+                className="rounded-lg border border-slate-700 px-4 py-2.5 text-sm font-medium text-slate-300 transition-colors hover:bg-slate-800 disabled:opacity-50"
+              >
+                Cancel
+              </button>
+
+              <button
+                type="button"
+                disabled={deletingId !== null}
+                onClick={() => void handleDeleteReview(reviewToDelete)}
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-red-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-400 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <Trash2 className="h-4 w-4" />
+                {deletingId === reviewToDelete.id
+                  ? "Deleting..."
+                  : "Delete review"}
+              </button>
+            </div>
+          </section>
+        </div>
+      )}
     </main>
   );
 }
