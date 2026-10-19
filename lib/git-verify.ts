@@ -1,7 +1,4 @@
 import { spawn } from "node:child_process";
-import fs from "node:fs";
-import path from "node:path";
-import os from "node:os";
 
 export type VerificationResult = {
   valid: boolean;
@@ -9,33 +6,6 @@ export type VerificationResult = {
   reason?: "REPO_NOT_FOUND" | "BRANCH_NOT_FOUND" | "TIMEOUT" | "INVALID_URL";
 };
 
-function getAskpassPath(): string {
-  if (process.platform !== "win32") {
-    return "/bin/true";
-  }
-
-  // Check if Git's bundled true.exe exists
-  const gitTrue = "C:\\Program Files\\Git\\usr\\bin\\true.exe";
-  if (fs.existsSync(gitTrue)) {
-    return gitTrue;
-  }
-
-  // Fallback to a non-interactive batch file
-  const batPath = path.join(os.tmpdir(), "sr-git-askpass.bat");
-  if (!fs.existsSync(batPath)) {
-    try {
-      fs.writeFileSync(batPath, "@exit 1\r\n", "utf8");
-    } catch {
-      // Fallback
-    }
-  }
-  return batPath;
-}
-
-/**
- * Verifies that a Git repository exists and is accessible,
- * and that the specified branch exists within it.
- */
 export function verifyGitRepositoryAndBranch(
   repositoryUrl: string,
   branch: string,
@@ -81,14 +51,13 @@ export function verifyGitRepositoryAndBranch(
         reason: "INVALID_URL",
       });
     }
-
-    const askpass = getAskpassPath();
-    const env = {
+    const env: NodeJS.ProcessEnv = {
       ...process.env,
       GIT_TERMINAL_PROMPT: "0",
-      GIT_ASKPASS: askpass,
       GCM_INTERACTIVE: "never",
     };
+
+    delete env.GIT_ASKPASS;
 
     const args = [
       "-c",
