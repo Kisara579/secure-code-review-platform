@@ -3,6 +3,7 @@ import { reviewQueue } from "@/lib/queue";
 import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { verifyGitRepositoryAndBranch } from "@/lib/git-verify";
+import { getGitHubInstallationOctokit } from "@/lib/github-app";
 
 export async function GET() {
   const session = await auth.api.getSession({
@@ -144,21 +145,134 @@ export async function POST(request: Request) {
   const repositoryUrl = body.repository.trim();
   const branch = body.branch.trim();
 
-  const verification = await verifyGitRepositoryAndBranch(
-    repositoryUrl,
-    branch,
-  );
+  if (body.githubRepositoryId !== undefined) {
+    if (
+      typeof body.githubRepositoryId !== "number" ||
+      !Number.isSafeInteger(body.githubRepositoryId) ||
+      body.githubRepositoryId <= 0
+    ) {
+      return Response.json(
+        { error: "Invalid GitHub repository ID." },
+        { status: 400 },
+      );
+    }
 
-  if (!verification.valid) {
-    return Response.json(
-      {
-        error: verification.error,
-        reason: verification.reason,
+    if (provider !== "github") {
+      return Response.json(
+        { error: "GitHub repository verification requires a GitHub URL." },
+        { status: 400 },
+      );
+    }
+
+    const connection = await prisma.providerConnection.findUnique({
+      where: {
+        userId_provider: {
+          userId: session.user.id,
+          provider: "GITHUB",
+        },
       },
-      {
-        status: 400,
-      },
+    });
+
+    if (!connection) {
+      return Response.json(
+        { error: "Connect your GitHub account first." },
+        { status: 403 },
+      );
+    }
+
+    const installationId = Number(connection.externalId);
+
+    if (!Number.isSafeInteger(installationId) || installationId <= 0) {
+      return Response.json(
+        { error: "The saved GitHub installation is invalid." },
+        { status: 500 },
+      );
+    }
+
+    try {
+      const octokit = await getGitHubInstallationOctokit(installationId);
+
+      const repositoryResponse = await octokit.rest.repos.get({
+        owner,
+        repo: repositoryName,
+      });
+
+      if (repositoryResponse.data.id !== body.githubRepositoryId) {
+        return Response.json(
+          {
+            error:
+              "The selected repository does not match the requested repository.",
+            reason: "REPO_NOT_FOUND",
+          },
+          { status: 403 },
+        );
+      }
+
+      try {
+        await octokit.rest.repos.getBranch({
+          owner,
+          repo: repositoryName,
+          branch,
+        });
+      } catch (error) {
+        if (
+          typeof error === "object" &&
+          error !== null &&
+          "status" in error &&
+          error.status === 404
+        ) {
+          return Response.json(
+            {
+              error: `Branch "${branch}" does not exist in this repository.`,
+              reason: "BRANCH_NOT_FOUND",
+            },
+            { status: 400 },
+          );
+        }
+
+        throw error;
+      }
+    } catch (error) {
+      if (
+        typeof error === "object" &&
+        error !== null &&
+        "status" in error &&
+        error.status === 404
+      ) {
+        return Response.json(
+          {
+            error:
+              "Repository not found or inaccessible through your GitHub App installation.",
+            reason: "REPO_NOT_FOUND",
+          },
+          { status: 400 },
+        );
+      }
+
+      console.error("GitHub repository verification failed:", {
+        message: error instanceof Error ? error.message : "Unknown error",
+      });
+
+      return Response.json(
+        { error: "Unable to verify the repository through GitHub." },
+        { status: 502 },
+      );
+    }
+  } else {
+    const verification = await verifyGitRepositoryAndBranch(
+      repositoryUrl,
+      branch,
     );
+
+    if (!verification.valid) {
+      return Response.json(
+        {
+          error: verification.error,
+          reason: verification.reason,
+        },
+        { status: 400 },
+      );
+    }
   }
 
   try {
