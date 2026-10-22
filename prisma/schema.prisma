@@ -80,6 +80,7 @@ model User {
   accounts Account[]
   sessions Session[]
   reviews  Review[]
+  providerConnections ProviderConnection[]
 
   @@map("User")
 }
@@ -132,4 +133,22 @@ model Verification {
 
   @@index([identifier])
   @@map("VerificationToken")
+}
+
+
+model ProviderConnection {
+  id                    String   @id @default(uuid())
+  provider              String
+  externalId            String
+  accessTokenEncrypted  String?  @db.Text
+  refreshTokenEncrypted String?  @db.Text
+  userId                String
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, provider])
+  @@unique([provider, externalId])
+  @@index([userId])
 }

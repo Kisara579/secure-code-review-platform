@@ -39,15 +39,24 @@ export default async function DashboardLayout({
             <nav className="flex items-center gap-1 sm:gap-2">
               <Link
                 href="/dashboard"
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+                className="group relative rounded-xl px-3.5 py-2 text-sm font-medium text-slate-300 border border-transparent transition-all duration-300  hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_rgba(6,182,212,0.18)]"
               >
                 Dashboard
+                <span className="pointer-events-none absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-0 rounded-full bg-linear-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-3/4 group-hover:shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
               </Link>
               <Link
                 href="/dashboard/review"
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-300 transition-colors hover:bg-white/5 hover:text-white"
+                className="group relative rounded-xl px-3.5 py-2 text-sm font-medium text-slate-300 border border-transparent transition-all duration-300 hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_rgba(6,182,212,0.18)]"
               >
                 New Review
+                <span className="pointer-events-none absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-0 rounded-full bg-linear-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-3/4 group-hover:shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
+              </Link>
+              <Link
+                href="/dashboard/review/history"
+                className="group relative rounded-xl px-3.5 py-2 text-sm font-medium text-slate-300 border border-transparent transition-all duration-300  hover:bg-cyan-500/10 hover:text-cyan-300 hover:shadow-[0_0_15px_rgba(6,182,212,0.18)]"
+              >
+                Review History
+                <span className="pointer-events-none absolute -bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 w-0 rounded-full bg-linear-to-r from-cyan-400 to-blue-500 transition-all duration-300 group-hover:w-3/4 group-hover:shadow-[0_0_8px_rgba(6,182,212,0.8)]" />
               </Link>
             </nav>
 

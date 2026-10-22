@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import {
   ShieldCheck,
   AlertTriangle,
@@ -6,32 +8,68 @@ import {
   ArrowRight,
   Plus,
 } from "lucide-react";
+import { auth } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+import CountUp from "@/components/CountUp";
 
-const stats = [
-  {
-    title: "Code Reviews",
-    value: "0",
-    subtitle: "Total reviews",
-    icon: ShieldCheck,
-    gradient: "from-cyan-500 to-blue-500",
-  },
-  {
-    title: "Security Issues",
-    value: "0",
-    subtitle: "Issues detected",
-    icon: AlertTriangle,
-    gradient: "from-amber-500 to-orange-500",
-  },
-  {
-    title: "Dependencies",
-    value: "0",
-    subtitle: "Vulnerabilities found",
-    icon: PackageSearch,
-    gradient: "from-violet-500 to-purple-500",
-  },
-];
+export default async function DashboardPage() {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
 
-export default function DashboardPage() {
+  if (!session) {
+    redirect("/sign-in");
+  }
+
+  const userId = session.user.id;
+
+  const [totalReviews, securityIssues, dependencyVulnerabilities] =
+    await Promise.all([
+      prisma.review.count({
+        where: { userId },
+      }),
+      prisma.finding.count({
+        where: {
+          source: "SEMGREP",
+          review: {
+            is: { userId },
+          },
+        },
+      }),
+      prisma.finding.count({
+        where: {
+          source: "OSV",
+          review: {
+            is: { userId },
+          },
+        },
+      }),
+    ]);
+
+  const stats = [
+    {
+      title: "Code Reviews",
+      value: totalReviews,
+      subtitle: "Total reviews",
+      icon: ShieldCheck,
+      gradient: "from-cyan-500 to-blue-500",
+    },
+    {
+      title: "Security Issues",
+      value: securityIssues,
+      subtitle: "Issues detected",
+      icon: AlertTriangle,
+      gradient: "from-amber-500 to-orange-500",
+    },
+    {
+      title: "Dependencies",
+      value: dependencyVulnerabilities,
+      subtitle: "Vulnerabilities found",
+      icon: PackageSearch,
+      gradient: "from-violet-500 to-purple-500",
+    },
+  ];
+
   return (
     <div className="px-6 py-10">
       <div className="mx-auto max-w-6xl">
@@ -57,6 +95,7 @@ export default function DashboardPage() {
         <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {stats.map((stat) => {
             const Icon = stat.icon;
+
             return (
               <div
                 key={stat.title}
@@ -79,7 +118,7 @@ export default function DashboardPage() {
                     </div>
                   </div>
                   <p className="mt-3 text-3xl font-bold text-white">
-                    {stat.value}
+                    <CountUp value={stat.value} />
                   </p>
                   <p className="mt-1 text-sm text-slate-500">{stat.subtitle}</p>
                 </div>
