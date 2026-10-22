@@ -4,6 +4,7 @@ import { headers } from "next/headers";
 import { auth } from "@/lib/auth";
 import { verifyGitRepositoryAndBranch } from "@/lib/git-verify";
 import { getGitHubInstallationOctokit } from "@/lib/github-app";
+import { decryptToken } from "@/lib/token-encryption";
 
 export async function GET() {
   const session = await auth.api.getSession({
@@ -117,20 +118,40 @@ export async function POST(request: Request) {
 
     const pathParts = url.pathname.split("/").filter(Boolean);
 
-    if (pathParts.length !== 2) {
+    const isGitHub = url.hostname === "github.com";
+    const isGitLab = url.hostname === "gitlab.com";
+
+    if (
+      url.protocol !== "https:" ||
+      url.username ||
+      url.password ||
+      url.port ||
+      (!isGitHub && !isGitLab)
+    ) {
       return Response.json(
-        {
-          error: "Please enter a valid repository URL.",
-        },
-        {
-          status: 400,
-        },
+        { error: "Only HTTPS GitHub or GitLab repository URLs are supported." },
+        { status: 400 },
       );
     }
 
-    provider = url.hostname === "github.com" ? "github" : "gitlab";
-    owner = pathParts[0];
-    repositoryName = pathParts[1];
+    const normalizedPath = pathParts.map((part, index) =>
+      index === pathParts.length - 1 ? part.replace(/\.git$/i, "") : part,
+    );
+
+    if (
+      (isGitHub && normalizedPath.length !== 2) ||
+      (isGitLab && normalizedPath.length < 2) ||
+      normalizedPath.some((part) => !part || part === "." || part === "..")
+    ) {
+      return Response.json(
+        { error: "Please enter a valid repository URL." },
+        { status: 400 },
+      );
+    }
+
+    provider = isGitHub ? "github" : "gitlab";
+    repositoryName = normalizedPath[normalizedPath.length - 1];
+    owner = normalizedPath.slice(0, -1).join("/");
   } catch {
     return Response.json(
       {
@@ -258,6 +279,125 @@ export async function POST(request: Request) {
         { status: 502 },
       );
     }
+  } else if (provider === "gitlab" && body.source === "gitlab") {
+    const gitlabConnection = await prisma.providerConnection.findUnique({
+      where: {
+        userId_provider: {
+          userId: session.user.id,
+          provider: "GITLAB",
+        },
+      },
+      select: {
+        accessTokenEncrypted: true,
+      },
+    });
+
+    if (!gitlabConnection?.accessTokenEncrypted) {
+      return Response.json(
+        { error: "Connect your GitLab account first." },
+        { status: 403 },
+      );
+    }
+
+    try {
+      const accessToken = decryptToken(gitlabConnection.accessTokenEncrypted);
+
+      const apiBase = "https://gitlab.com/api/v4";
+      const projectPath = encodeURIComponent(
+        normalizedGitLabProjectPath(repositoryUrl),
+      );
+
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+
+      const projectResponse = await fetch(
+        `${apiBase}/projects/${projectPath}`,
+        {
+          headers,
+          cache: "no-store",
+          signal: AbortSignal.timeout(15_000),
+        },
+      );
+
+      if (projectResponse.status === 404) {
+        return Response.json(
+          {
+            error:
+              "Repository not found or inaccessible to your GitLab account.",
+            reason: "REPO_NOT_FOUND",
+          },
+          { status: 400 },
+        );
+      }
+
+      if (projectResponse.status === 401 || projectResponse.status === 403) {
+        return Response.json(
+          { error: "GitLab authorization is invalid or lacks permission." },
+          { status: 403 },
+        );
+      }
+
+      if (!projectResponse.ok) {
+        throw new Error(
+          `GitLab project verification returned status ${projectResponse.status}.`,
+        );
+      }
+
+      const project = (await projectResponse.json()) as {
+        id: number;
+        path_with_namespace: string;
+      };
+
+      const requestedPath = decodeURIComponent(projectPath).replace(
+        /\.git$/i,
+        "",
+      );
+
+      if (project.path_with_namespace !== requestedPath) {
+        return Response.json(
+          {
+            error:
+              "The GitLab repository path does not match the requested repository.",
+          },
+          { status: 400 },
+        );
+      }
+
+      const branchResponse = await fetch(
+        `${apiBase}/projects/${project.id}/repository/branches/${encodeURIComponent(branch)}`,
+        {
+          headers,
+          cache: "no-store",
+          signal: AbortSignal.timeout(15_000),
+        },
+      );
+
+      if (branchResponse.status === 404) {
+        return Response.json(
+          {
+            error: `Branch "${branch}" does not exist or is inaccessible in this repository.`,
+            reason: "BRANCH_NOT_FOUND",
+          },
+          { status: 400 },
+        );
+      }
+
+      if (!branchResponse.ok) {
+        throw new Error(
+          `GitLab branch verification returned status ${branchResponse.status}.`,
+        );
+      }
+    } catch (error) {
+      console.error("GitLab repository verification failed:", {
+        message: error instanceof Error ? error.message : "Unknown error",
+      });
+
+      return Response.json(
+        { error: "Unable to verify the repository through GitLab." },
+        { status: 502 },
+      );
+    }
   } else {
     const verification = await verifyGitRepositoryAndBranch(
       repositoryUrl,
@@ -343,4 +483,13 @@ export async function POST(request: Request) {
       status: review.status,
     },
   });
+}
+function normalizedGitLabProjectPath(repositoryUrl: string): string {
+  const url = new URL(repositoryUrl);
+
+  return url.pathname
+    .split("/")
+    .filter(Boolean)
+    .join("/")
+    .replace(/\.git$/i, "");
 }

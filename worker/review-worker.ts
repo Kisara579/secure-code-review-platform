@@ -1,3 +1,4 @@
+import { decryptToken } from "@/lib/token-crypto";
 import { Worker } from "bullmq";
 import IORedis from "ioredis";
 import "dotenv/config";
@@ -48,7 +49,32 @@ const worker = new Worker(
       try {
         console.log(`Workspace created: ${workspace}`);
 
-        await cloneRepository(review.repositoryUrl, review.branch, workspace);
+        let gitlabAccessToken: string | undefined;
+
+        if (review.provider.toLowerCase() === "gitlab" && review.userId) {
+          const connection = await prisma.providerConnection.findUnique({
+            where: {
+              userId_provider: {
+                userId: review.userId,
+                provider: "GITLAB",
+              },
+            },
+            select: {
+              accessTokenEncrypted: true,
+            },
+          });
+
+          if (connection?.accessTokenEncrypted) {
+            gitlabAccessToken = decryptToken(connection.accessTokenEncrypted);
+          }
+        }
+
+        await cloneRepository(
+          review.repositoryUrl,
+          review.branch,
+          workspace,
+          gitlabAccessToken,
+        );
         console.log(`Repository cloned to: ${workspace}`);
 
         const lockfiles = await findPackageLockFiles(workspace);

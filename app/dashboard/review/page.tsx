@@ -74,6 +74,16 @@ export default function ReviewPage() {
   const [githubConnected, setGithubConnected] = useState(false);
   const [isLoadingRepositories, setIsLoadingRepositories] = useState(true);
   const [repositoryLoadError, setRepositoryLoadError] = useState("");
+  const [gitlabRepositories, setGitlabRepositories] = useState<
+    GitHubRepository[]
+  >([]);
+  const [selectedGitLabRepositoryId, setSelectedGitLabRepositoryId] =
+    useState("");
+  const [gitlabConnected, setGitlabConnected] = useState(false);
+  const [isLoadingGitLabRepositories, setIsLoadingGitLabRepositories] =
+    useState(false);
+  const [gitlabRepositoryLoadError, setGitlabRepositoryLoadError] =
+    useState("");
   const [error, setError] = useState("");
   const [errorField, setErrorField] = useState<"repository" | "branch" | null>(
     null,
@@ -123,6 +133,46 @@ export default function ReviewPage() {
     }
   };
 
+  const loadGitLabRepositories = async () => {
+    setIsLoadingGitLabRepositories(true);
+    setGitlabRepositoryLoadError("");
+
+    try {
+      const response = await fetch("/api/gitlab/repositories", {
+        cache: "no-store",
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        setGitlabConnected(false);
+        setGitlabRepositories([]);
+
+        if (response.status !== 404) {
+          setGitlabRepositoryLoadError(
+            data.error ?? "Unable to load GitLab repositories.",
+          );
+        }
+        return;
+      }
+
+      setGitlabConnected(true);
+
+      const sortedRepositories = [...(data.repositories ?? [])].sort(
+        (a, b) =>
+          new Date(b.pushedAt ?? 0).getTime() -
+          new Date(a.pushedAt ?? 0).getTime(),
+      );
+
+      setGitlabRepositories(sortedRepositories);
+    } catch {
+      setGitlabRepositoryLoadError(
+        "Unable to load GitLab repositories. Please try again.",
+      );
+    } finally {
+      setIsLoadingGitLabRepositories(false);
+    }
+  };
+
   useEffect(() => {
     let cancelled = false;
 
@@ -148,7 +198,14 @@ export default function ReviewPage() {
         }
 
         setGithubConnected(true);
-        setRepositories(data.repositories ?? []);
+
+        const sortedRepositories = [...(data.repositories ?? [])].sort(
+          (a, b) =>
+            new Date(b.pushedAt ?? 0).getTime() -
+            new Date(a.pushedAt ?? 0).getTime(),
+        );
+
+        setRepositories(sortedRepositories);
         setRepositoryLoadError("");
       } catch {
         if (!cancelled) {
@@ -248,6 +305,7 @@ export default function ReviewPage() {
         body: JSON.stringify({
           repository: repository.trim(),
           branch: branch.trim(),
+          source: activeTab,
           ...(activeTab === "github" && selectedRepo
             ? { githubRepositoryId: selectedRepo.id }
             : {}),
@@ -295,16 +353,11 @@ export default function ReviewPage() {
     }`;
 
   /* ── Filtered repositories for search ─────────────────────── */
-  const filteredRepositories = [...repositories]
-    .sort((a, b) => {
-      // Repositories selected or updated most recently should appear first.
-      return 0;
-    })
-    .filter(
-      (item) =>
-        item.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.name.toLowerCase().includes(searchQuery.toLowerCase()),
-    );
+  const filteredRepositories = repositories.filter(
+    (item) =>
+      item.fullName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
   const selectedRepo = repositories.find(
     (item) => String(item.id) === selectedRepositoryId,
   );
@@ -312,8 +365,8 @@ export default function ReviewPage() {
   /* ── Provider Panel (shared between GitHub & GitLab) ────── */
   const renderProviderPanel = (provider: "github" | "gitlab") => {
     const isGitHub = provider === "github";
-    const isConnected = isGitHub ? githubConnected : false;
-    const isDisabled = !isGitHub; // GitLab disabled for now
+    const isConnected = isGitHub ? githubConnected : gitlabConnected;
+    const isDisabled = false;
 
     return (
       <div
@@ -388,14 +441,13 @@ export default function ReviewPage() {
               {isConnected ? "Manage GitHub Installation" : "Connect GitHub"}
             </a>
           ) : (
-            <button
-              type="button"
-              disabled
-              className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg border border-slate-700 px-4 py-3 text-sm font-medium text-slate-500 opacity-50 cursor-not-allowed"
+            <a
+              href="/api/gitlab/connect"
+              className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg border border-slate-700 px-4 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
             >
-              <GitLabIcon className="h-4 w-4" />
-              Connect GitLab
-            </button>
+              <GitLabIcon className="h-4 w-4 text-orange-400" />
+              {isConnected ? "GitLab Connected" : "Connect GitLab"}
+            </a>
           )}
 
           {/* Connected status bar (GitHub only) */}
