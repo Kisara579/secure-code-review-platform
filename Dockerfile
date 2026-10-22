@@ -27,6 +27,12 @@ RUN npm run build
 
 # Production web image
 FROM base AS runner
+
+# Install Git for repository verification
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends git \
+    && rm -rf /var/lib/apt/lists/*
+
 ENV NODE_ENV=production
 ENV PORT=3000
 ENV HOSTNAME="0.0.0.0"
