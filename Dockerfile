@@ -22,7 +22,9 @@ RUN npx prisma generate
 ARG NEXT_PUBLIC_BETTER_AUTH_URL
 ENV NEXT_PUBLIC_BETTER_AUTH_URL=$NEXT_PUBLIC_BETTER_AUTH_URL
 
-RUN npm run build
+# Better Auth initializes during the build and requires a secret.
+RUN BETTER_AUTH_SECRET="$(node -p 'require("node:crypto").randomBytes(32).toString("base64")')" \
+    npm run build
 
 
 # Production web image

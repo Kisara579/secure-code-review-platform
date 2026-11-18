@@ -1,7 +1,5 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 type SendEmailOptions = {
   to: string;
   subject: string;
@@ -15,14 +13,15 @@ export async function sendEmail({
   text,
   html,
 }: SendEmailOptions): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY;
   const from = process.env.RESEND_FROM_EMAIL;
-
-  if (!process.env.RESEND_API_KEY || !from) {
+  if (!apiKey || !from) {
     throw new Error(
       "Email configuration is missing. Check RESEND_API_KEY and RESEND_FROM_EMAIL.",
     );
   }
 
+  const resend = new Resend(apiKey);
   const { error } = await resend.emails.send({
     from,
     to,
